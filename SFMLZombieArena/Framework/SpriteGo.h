@@ -15,9 +15,15 @@ public:
 	void SetOrigin(Origins preset);
 	void SetOrigin(const sf::Vector2f& newOrigin);
 
+	void Init() override;
+	void Release() override;
+
 	void Reset() override;
+
+	void Update(float dt) override;
+	void Draw(sf::RenderWindow& window) override;
+
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetScale(const sf::Vector2f& pos) override;
-	void Draw(sf::RenderWindow& window) override;
 };
 

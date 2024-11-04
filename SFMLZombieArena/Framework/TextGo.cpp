@@ -19,6 +19,14 @@ void TextGo::SetOrigin(const sf::Vector2f& newOrigin)
 	text.setOrigin(origin);
 }
 
+void TextGo::Init()
+{
+}
+
+void TextGo::Release()
+{
+}
+
 void TextGo::Reset()
 {
 	text.setFont(FONT_MGR.Get(fontId));
@@ -37,10 +45,19 @@ void TextGo::SetScale(const sf::Vector2f& scale)
 	text.setScale(scale);
 }
 
+void TextGo::Update(float dt)
+{
+}
+
 void TextGo::Draw(sf::RenderWindow& window)
 {
-	GameObject::Draw(window);
 	window.draw(text);
+}
+
+void TextGo::SetRotation(float angle)
+{
+	GameObject::SetRotation(angle);
+	text.setRotation(angle);
 }
 
 void TextGo::SetTextString(const std::string& str)

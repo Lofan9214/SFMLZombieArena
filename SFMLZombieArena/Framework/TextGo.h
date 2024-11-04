@@ -14,10 +14,16 @@ public:
 	void SetOrigin(Origins preset);
 	void SetOrigin(const sf::Vector2f& newOrigin);
 
+	void Init() override;
+	void Release() override;
+
 	void Reset() override;
+
+	void Update(float dt) override;
+	void Draw(sf::RenderWindow& window) override;
+	void SetRotation(float angle) override;
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetScale(const sf::Vector2f& scale) override;
-	void Draw(sf::RenderWindow& window) override;
 
 	void SetTextString(const std::string& str);
 	void SetFillColor(sf::Color color);

@@ -61,11 +61,11 @@ public:
 	T& Get(const std::string& id)
 	{
 		auto it = resources.find(id);
-		if (it == resources.end())
+		if (it == resources.end()&& !Load(id))
 		{
 			return Empty;
 		}
-		return *(it->second);
+		return *(resources[id]);
 	}
 };
 

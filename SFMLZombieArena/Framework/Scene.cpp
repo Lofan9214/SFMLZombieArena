@@ -39,6 +39,10 @@ void Scene::Exit()
 {
 	ApplyAddGo();
 	ApplyRemoveGO();
+
+	TEXTURE_MGR.UnloadAll();
+	FONT_MGR.UnloadAll();
+	SOUNDBUFFER_MGR.UnloadAll();
 }
 
 void Scene::Update(float dt)

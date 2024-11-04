@@ -7,6 +7,8 @@ protected:
 	
 	bool active = true;
 
+	float rotation;
+
 	sf::Vector2f position;
 	sf::Vector2f scale;
 
@@ -40,13 +42,16 @@ public:
 		originPreset = Origins::Custom;
 	}
 
-	virtual void Init();
-	virtual void Release();
+	float GetRotation() const { return rotation; }
+	virtual void SetRotation(float angle) { rotation = angle; }
 
-	virtual void Reset();
+	virtual void Init() = 0;
+	virtual void Release() = 0;
 
-	virtual void Update(float dt);
-	virtual void Draw(sf::RenderWindow& window);
+	virtual void Reset() = 0;
+
+	virtual void Update(float dt) = 0;
+	virtual void Draw(sf::RenderWindow& window) = 0;
 };
 
 struct DrawOrderComparer

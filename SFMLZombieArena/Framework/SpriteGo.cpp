@@ -22,6 +22,14 @@ void SpriteGo::SetOrigin(const sf::Vector2f& newOrigin)
 	sprite.setOrigin(origin);
 }
 
+void SpriteGo::Init()
+{
+}
+
+void SpriteGo::Release()
+{
+}
+
 void SpriteGo::Reset()
 {
 	sprite.setTexture(TEXTURE_MGR.Get(textureId));
@@ -40,8 +48,11 @@ void SpriteGo::SetScale(const sf::Vector2f& scale)
 	sprite.setScale(scale);
 }
 
+void SpriteGo::Update(float dt)
+{
+}
+
 void SpriteGo::Draw(sf::RenderWindow& window)
 {
-	GameObject::Draw(window);
 	window.draw(sprite);
 }
