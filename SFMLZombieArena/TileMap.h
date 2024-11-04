@@ -6,12 +6,13 @@ protected:
 	sf::VertexArray va;
 	std::string spriteSheetId = "graphics/background_sheet.png";
 
-	sf::Texture* texture = nullptr;
+	sf::Texture* texture;
 
 	sf::Transform transform;
 
 	sf::Vector2i cellCount;
 	sf::Vector2f cellSize;
+	sf::Vector2f tileSize;
 
 public:
 	TileMap(const std::string& name = "");
@@ -30,7 +31,7 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void Set(const sf::Vector2i& count, const sf::Vector2f& size);
+	void Set(const sf::Vector2i& count, const sf::Vector2f& size, const sf::Vector2f& tilesize);
 	void UpdateTransform();
 };
 

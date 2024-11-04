@@ -66,7 +66,7 @@ void Player::Update(float dt)
 	direction.y = InputMgr::GetAxis(Axis::Vertical);
 
 	float mag = Utils::Magnitude(direction);
-	if (mag != 0.f)
+	if (mag > 1.f)
 	{
 		direction /= mag;
 	}

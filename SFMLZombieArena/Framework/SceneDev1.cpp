@@ -24,8 +24,6 @@ void SceneDev1::Exit()
 void SceneDev1::Update(float dt)
 {
 	Scene::Update(dt);
-
-
 }
 
 void SceneDev1::Draw(sf::RenderWindow& window)
