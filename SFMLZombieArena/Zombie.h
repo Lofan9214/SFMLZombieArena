@@ -1,34 +1,44 @@
 #pragma once
 
+class Player;
 class SceneGame;
 
-class Player : public GameObject
+class Zombie : public GameObject
 {
-protected:
+public:
+	enum class Types
+	{
+		Bloater,
+		Chaser,
+		Crawler,
+	};
 
-	sf::Sprite body;
-	std::string textureId = "graphics/player.png";
-
-	sf::Vector2f direction;
-	sf::Vector2f look;
-
-	float speed = 500.f;
-
-	SceneGame* sceneGame;
-
-	int hp = 10;
-	int ammo = 10;
-
-	float shootTimer = 0.5f;
-	float shootDelay = 0.5f;
-
-	sf::FloatRect movableBounds;
+	static const int TotalTypes = 3;
 
 	DebugBox debugBox;
 
+protected:
+	Types type = Types::Bloater;
+	sf::Sprite body;
+	sf::String textureId;
+
+	sf::Vector2f direction;
+
+	int maxHp = 0;
+	float speed = 0.f;
+	int damage = 0;
+	float attackInterval = 0.f;
+
+	int hp = 0;
+	float attackTimer = 0.f;
+
+	Player* player = nullptr;
+	sf::FloatRect movableBounds;
+	SceneGame* sceneGame = nullptr;
+
 public:
-	Player(const std::string& name = "");
-	~Player() = default;
+	Zombie(const std::string& name = "");
+	~Zombie() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -48,9 +58,7 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void Shoot();
+	void SetType(Types type);
 
-	void OnHealth(int hp);
-	void OnAmmo(int ammo);
-	void OnDamage(int d);
+	void OnDamage(int damage);
 };

@@ -52,6 +52,10 @@ void SpriteGo::Update(float dt)
 {
 }
 
+void SpriteGo::FixedUpdate(float dt)
+{
+}
+
 void SpriteGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);

@@ -7,6 +7,8 @@ protected:
 	std::list<GameObject*> addGameObjects;
 	std::list<GameObject*> removeGameObjects;
 
+	sf::View worldView;
+
 public:
 	const SceneIds id;
 
@@ -21,6 +23,7 @@ public:
 
 	virtual void Update(float dt);
 	virtual void LateUpdate(float dt);
+	virtual void FixedUpdate(float dt);
 
 	virtual void OnPreDraw();
 	virtual void Draw(sf::RenderWindow& window);
@@ -40,5 +43,7 @@ public:
 	void ApplyAddGo();
 	void ApplyRemoveGO();
 
+	sf::Vector2f ScreenToWorld(sf::Vector2i screenPos);
+	sf::Vector2i WorldToScreen(sf::Vector2f worldPos);
 };
 

@@ -42,6 +42,9 @@ public:
 		originPreset = Origins::Custom;
 	}
 
+	virtual sf::FloatRect GetLocalBounds() const { return { 0.f,0.f,0.f,0.f }; }
+	virtual sf::FloatRect GetGlobalBounds() const { return { 0.f,0.f,0.f,0.f }; }
+
 	float GetRotation() const { return rotation; }
 	virtual void SetRotation(float angle) { rotation = angle; }
 
@@ -51,6 +54,8 @@ public:
 	virtual void Reset() = 0;
 
 	virtual void Update(float dt) = 0;
+	virtual void LateUpdate(float dt) = 0;
+	virtual void FixedUpdate(float dt) = 0;
 	virtual void Draw(sf::RenderWindow& window) = 0;
 };
 

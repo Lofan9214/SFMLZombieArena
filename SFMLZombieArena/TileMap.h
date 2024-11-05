@@ -25,10 +25,16 @@ public:
 	void SetOrigin(Origins preset) override;
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
 
+	sf::FloatRect GetLocalBounds() const override;
+	sf::FloatRect GetGlobalBounds() const override;
+	sf::FloatRect GetMovableBounds() const;
+	
 	void Init() override;
 	void Release() override;
 	void Reset() override;
+	void LateUpdate(float dt) override;
 	void Update(float dt) override;
+	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
 	void Set(const sf::Vector2i& count, const sf::Vector2f& size, const sf::Vector2f& tilesize);

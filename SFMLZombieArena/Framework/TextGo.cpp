@@ -49,6 +49,10 @@ void TextGo::Update(float dt)
 {
 }
 
+void TextGo::FixedUpdate(float dt)
+{
+}
+
 void TextGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(text);

@@ -42,13 +42,30 @@ void TileMap::SetOrigin(const sf::Vector2f& newOrigin)
 	UpdateTransform();
 }
 
+sf::FloatRect TileMap::GetLocalBounds() const
+{
+	return { 0.f,0.f,cellCount.x * cellSize.x ,cellCount.y * cellSize.y };
+}
+
+sf::FloatRect TileMap::GetGlobalBounds() const
+{
+	sf::FloatRect bounds = GetLocalBounds();
+	return transform.transformRect(bounds);
+}
+
+sf::FloatRect TileMap::GetMovableBounds() const
+{
+	sf::FloatRect bounds = { cellSize.x,cellSize.y,(cellCount.x - 2) * cellSize.x ,(cellCount.y - 2) * cellSize.y };
+	return transform.transformRect(bounds);
+}
+
 void TileMap::Init()
 {
 	sortingLayer = SortingLayers::Background;
 	sortingOrder = -1;
 
-	Set({ 10,10 }, { 50.f,50.f }, { 50.f,50.f });
-	SetOrigin(Origins::TL);
+	Set({ 50,50 }, { 50.f,50.f }, { 50.f,50.f });
+	SetOrigin(Origins::MC);
 }
 
 void TileMap::Release()
@@ -61,6 +78,10 @@ void TileMap::Reset()
 
 	SetOrigin(originPreset);
 	SetPosition({ 0.f,0.f });
+}
+
+void TileMap::LateUpdate(float dt)
+{
 }
 
 void TileMap::Update(float dt)
@@ -101,6 +122,10 @@ void TileMap::Update(float dt)
 	{
 		SetOrigin(originPreset == (Origins)((int)Origins::Custom - 1) ? (Origins)0 : (Origins)((int)originPreset + 1));
 	}
+}
+
+void TileMap::FixedUpdate(float dt)
+{
 }
 
 void TileMap::Draw(sf::RenderWindow& window)

@@ -57,6 +57,22 @@ void Scene::Update(float dt)
 
 void Scene::LateUpdate(float dt)
 {
+	for (auto obj : gameObjects)
+	{
+		if (!obj->IsActive())
+			continue;
+		obj->LateUpdate(dt);
+	}
+}
+
+void Scene::FixedUpdate(float dt)
+{
+	for (auto obj : gameObjects)
+	{
+		if (!obj->IsActive())
+			continue;
+		obj->FixedUpdate(dt);
+	}
 }
 
 void Scene::OnPreDraw()
@@ -74,12 +90,18 @@ void Scene::Draw(sf::RenderWindow& window)
 		drawQueue.push(obj);
 	}
 
+	const sf::View& previousView = window.getView();
+
+	window.setView(worldView);
+
 	while (!drawQueue.empty())
 	{
 		GameObject* obj = drawQueue.top();
 		obj->Draw(window);
 		drawQueue.pop();
 	}
+
+	window.setView(previousView);
 }
 
 void Scene::OnPostDraw()
@@ -138,4 +160,14 @@ void Scene::ApplyRemoveGO()
 		gameObjects.remove(go);
 	}
 	removeGameObjects.clear();
+}
+
+sf::Vector2f Scene::ScreenToWorld(sf::Vector2i screenPos)
+{
+	return FRAMEWORK.GetWindow().mapPixelToCoords(screenPos, worldView);
+}
+
+sf::Vector2i Scene::WorldToScreen(sf::Vector2f worldPos)
+{
+	return FRAMEWORK.GetWindow().mapCoordsToPixel(worldPos, worldView);
 }
