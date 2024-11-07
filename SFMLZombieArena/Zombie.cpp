@@ -141,18 +141,21 @@ void Zombie::SetType(Types type)
 		textureId = "graphics/bloater.png";
 		speed = 100.f;
 		maxHp = 50;
+		damage = 5;
 
 		break;
 	case Types::Chaser:
 		textureId = "graphics/chaser.png";
 		speed = 75.f;
 		maxHp = 20;
+		damage = 5;
 
 		break;
 	case Types::Crawler:
 		textureId = "graphics/crawler.png";
 		speed = 50.f;
 		maxHp = 10;
+		damage = 5;
 
 		break;
 	default:

@@ -30,6 +30,7 @@ protected:
 	float damageDelay = 1.f;
 
 	bool isReloading = false;
+	bool isDamaged = false;
 
 	sf::FloatRect movableBounds;
 

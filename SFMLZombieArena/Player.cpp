@@ -145,6 +145,17 @@ void Player::Update(float dt)
 		Shoot();
 	}
 
+
+	if (isDamaged)
+	{
+		damageTimer += dt;
+		if (damageTimer > damageDelay)
+		{
+			isDamaged = false;
+			body.setColor(sf::Color::White);
+		}
+	}
+
 	hitBox.UpdateTr(body, body.getLocalBounds());
 
 	debugBox.SetBounds(GetGlobalBounds());
@@ -192,8 +203,15 @@ void Player::OnAmmo(int ammo)
 
 void Player::OnDamage(int d)
 {
-	hp -= d;
-	debugBox.SetOutlineColor(sf::Color::Red);
+	if (!isDamaged)
+	{
+		isDamaged = true;
+		damageTimer = 0.f;
+		hp -= d;
+		debugBox.SetOutlineColor(sf::Color::Red);
+		body.setColor(sf::Color(127, 127, 127, 255));
+	}
+
 	if (hp > 0)
 	{
 		return;

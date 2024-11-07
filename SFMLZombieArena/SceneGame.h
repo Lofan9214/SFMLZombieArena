@@ -39,6 +39,7 @@ protected:
 
 	int score;
 	int hiscore;
+	int stage;
 
 public:
 

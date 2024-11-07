@@ -99,6 +99,7 @@ void SceneGame::Update(float dt)
 
 	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
 	uiHud->SetHp(player->GetHp(), player->GetMaxHp());
+	uiHud->SetZombieCount(zombies.size());
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
 	{
@@ -116,7 +117,6 @@ void SceneGame::Update(float dt)
 	{
 		uiGameOver->SetActive(!uiGameOver->IsActive());
 	}
-
 	if (player != nullptr)
 	{
 		worldView.setCenter(player->GetPosition());
