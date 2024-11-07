@@ -1,7 +1,7 @@
 #pragma once
-#include "Item.h"
 
 class SceneGame;
+enum class Upgrade;
 
 class ItemGenerator : public GameObject
 {
@@ -34,5 +34,5 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void Upgrade(Item::Types type);
+	void UpgradeItem(Upgrade type);
 };

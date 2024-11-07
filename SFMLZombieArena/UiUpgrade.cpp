@@ -90,7 +90,7 @@ void UiUpgrade::Update(float dt)
 				upgrades[i].setFillColor(sf::Color::Red);
 				if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 				{
-					sceneGame->OnUpgrade(i);
+					sceneGame->OnUpgrade((Upgrade)i);
 					return;
 				}
 			}

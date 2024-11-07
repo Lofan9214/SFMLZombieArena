@@ -3,17 +3,18 @@
 class Player;
 class SceneGame;
 
+enum class ItemTypes
+{
+	Health,
+	Ammo,
+};
+
 class Item : public GameObject
 {
 public:
-	enum class Types
-	{
-		Health,
-		Ammo,
-	};
 	const static int TotalTypes = 2;
 protected:
-	Types type = Types::Health;
+	ItemTypes type = ItemTypes::Health;
 	sf::Sprite body;
 	sf::String textureId;
 
@@ -45,6 +46,6 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void SetType(Types type, int v);
+	void SetType(ItemTypes type, int v);
 };
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "Scene.h"
-#include "Item.h"
 
 class Player;
 class Zombie;
@@ -11,11 +10,26 @@ class UiHud;
 class ItemGenerator;
 class UiUpgrade;
 class UiGameOver;
+class Item;
+enum class ItemTypes;
+enum class Upgrade;
 
 class SceneGame :
     public Scene
 {
+public:
+	enum class Status
+	{
+		Awake,
+		InGame,
+		GameOver,
+		Upgrade,
+		Pause,
+	};
+
 protected:
+	Status currentStatus = Status::Awake;
+
 	Player* player;
 	TileMap* tilemap;
 	UiHud* uiHud;
@@ -39,7 +53,9 @@ protected:
 
 	int score;
 	int hiscore;
-	int stage;
+	int wutheringWave;
+	int spawncount;
+	float spawnTimer;
 
 public:
 
@@ -55,9 +71,16 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
+	void SetStatus(Status status);
+	void UpdateAwake(float dt);
+	void UpdateInGame(float dt);
+	void UpdateUpgrade(float dt);
+	void UpdateGameOver(float dt);
+	void UpdatePause(float dt);
+
     void SpawnZombies(int count);
     Bullet* TakeBullet();
-    void SpawnItem(Item::Types type, int qt);
+    void SpawnItem(ItemTypes type, int qt);
     void OnItemTake(Item* item);
 
 
@@ -66,7 +89,7 @@ public:
 	void OnZombieDie(Zombie* zombie);
 	void ReturnBullet(Bullet* bullet);
 	void ReturnBlood(Blood* blood);
-
-	void OnUpgrade(int up);
+	
+	void OnUpgrade(Upgrade up);
 };
 

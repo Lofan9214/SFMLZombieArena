@@ -1,6 +1,7 @@
 #pragma once
 
 class SceneGame;
+enum class Upgrade;
 
 class Player : public GameObject
 {
@@ -71,4 +72,5 @@ public:
 	int GetAmmo() { return ammo; }
 	int GetHp() { return hp; }
 	int GetMaxHp() { return maxHp; }
+	void UpgradeStat(Upgrade upgrade);
 };

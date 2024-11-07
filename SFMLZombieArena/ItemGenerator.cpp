@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "ItemGenerator.h"
+#include "Item.h"
+#include "UiUpgrade.h"
 #include "SceneGame.h"
+
 
 ItemGenerator::ItemGenerator(const std::string& name)
 	: GameObject(name)
@@ -63,27 +66,21 @@ void ItemGenerator::LateUpdate(float dt)
 
 void ItemGenerator::Update(float dt)
 {
-	if (InputMgr::GetKeyDown(sf::Keyboard::O))
-	{
-		active = !active;
-		ammoTimer = 0.f;
-		healthTimer = 0.f;
-	}
-	if (active)
-	{
-		ammoTimer += dt;
-		healthTimer += dt;
+	if (!active)
+		return;
 
-		if (ammoTimer > ammoDelay)
-		{
-			ammoTimer = 0.f;
-			sceneGame->SpawnItem(Item::Types::Ammo,ammo);
-		}
-		if (healthTimer > healthDelay)
-		{
-			healthTimer = 0.f;
-			sceneGame->SpawnItem(Item::Types::Health,health);
-		}
+	ammoTimer += dt;
+	healthTimer += dt;
+
+	if (ammoTimer > ammoDelay)
+	{
+		ammoTimer = 0.f;
+		sceneGame->SpawnItem(ItemTypes::Ammo, ammo);
+	}
+	if (healthTimer > healthDelay)
+	{
+		healthTimer = 0.f;
+		sceneGame->SpawnItem(ItemTypes::Health, health);
 	}
 }
 
@@ -95,18 +92,17 @@ void ItemGenerator::Draw(sf::RenderWindow& window)
 {
 }
 
-void ItemGenerator::Upgrade(Item::Types type)
+void ItemGenerator::UpgradeItem(Upgrade type)
 {
 	switch (type)
 	{
-	case Item::Types::Health:
+	case Upgrade::HealthPickups:
 		health += 5;
 		healthDelay *= 0.95f;
 		break;
-	case Item::Types::Ammo:
+	case Upgrade::AmmoPickups:
 		ammo += 5;
 		ammoDelay *= 0.95f;
-
 		break;
 	default:
 		break;

@@ -6,6 +6,7 @@
 #include "Bullet.h"
 #include "ItemGenerator.h"
 #include "Blood.h"
+#include "Item.h"
 #include "UiHud.h"
 #include "UiUpgrade.h"
 #include "UiGameOver.h"
@@ -50,7 +51,10 @@ void SceneGame::Enter()
 	uiUpgrade->SetActive(false);
 	uiGameOver->SetActive(false);
 
+	itemGenerator->SetActive(false);
+
 	score = 0;
+	wutheringWave = 0;
 
 	Scene::Enter();
 	player->SetMovableBounds(tilemap->GetMovableBounds());
@@ -97,29 +101,28 @@ void SceneGame::Update(float dt)
 
 	Scene::Update(dt);
 
-	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
-	uiHud->SetHp(player->GetHp(), player->GetMaxHp());
-	uiHud->SetZombieCount(zombies.size());
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
-	{
-		SCENE_MGR.ChangeScene(SceneIds::Game);
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
-	{
-		SpawnZombies(100);
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::F6))
-	{
-		uiUpgrade->SetActive(!uiUpgrade->IsActive());
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::F7))
-	{
-		uiGameOver->SetActive(!uiGameOver->IsActive());
-	}
 	if (player != nullptr)
 	{
 		worldView.setCenter(player->GetPosition());
+	}
+
+	switch (currentStatus)
+	{
+	case SceneGame::Status::Awake:
+		UpdateAwake(dt);
+		break;
+	case SceneGame::Status::InGame:
+		UpdateInGame(dt);
+		break;
+	case SceneGame::Status::GameOver:
+		UpdateGameOver(dt);
+		break;
+	case SceneGame::Status::Upgrade:
+		UpdateUpgrade(dt);
+		break;
+	case SceneGame::Status::Pause:
+		UpdatePause(dt);
+		break;
 	}
 }
 
@@ -131,6 +134,91 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	window.setView(uiView);
 	window.draw(cursor);
 	window.setView(previousView);
+}
+
+void SceneGame::SetStatus(Status status)
+{
+	Status prev = currentStatus;
+	currentStatus = status;
+
+	switch (currentStatus)
+	{
+	case SceneGame::Status::Awake:
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
+	case SceneGame::Status::InGame:
+		FRAMEWORK.SetTimeScale(1.f);
+		uiUpgrade->SetActive(false);
+		itemGenerator->SetActive(true);
+		++wutheringWave;
+		spawnTimer = 7.f;
+		spawncount = wutheringWave * 10;
+		break;
+	case SceneGame::Status::GameOver:
+		FRAMEWORK.SetTimeScale(0.f);
+		itemGenerator->SetActive(false);
+		uiGameOver->SetActive(true);
+		break;
+	case SceneGame::Status::Upgrade:
+		itemGenerator->SetActive(false);
+		uiUpgrade->SetActive(true);
+		break;
+	case SceneGame::Status::Pause:
+		itemGenerator->SetActive(false);
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
+	}
+}
+
+void SceneGame::UpdateAwake(float dt)
+{
+	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+	{
+		SetStatus(Status::InGame);
+	}
+	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
+	uiHud->SetWave(wutheringWave);
+}
+
+void SceneGame::UpdateInGame(float dt)
+{
+	spawnTimer += dt;
+	if (spawnTimer > 10.f)
+	{
+		spawnTimer = 0.f;
+		if (spawncount > 0)
+		{
+			spawncount -= 10;
+			SpawnZombies(10);
+		}
+	}
+	int remainZombie = zombies.size();
+	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
+	uiHud->SetHp(player->GetHp(), player->GetMaxHp());
+	uiHud->SetWave(wutheringWave);
+	uiHud->SetZombieCount(remainZombie);
+
+	if (remainZombie <= 0 && spawncount <= 0)
+	{
+		SetStatus(Status::Upgrade);
+	}
+}
+
+void SceneGame::UpdateUpgrade(float dt)
+{
+}
+
+void SceneGame::UpdateGameOver(float dt)
+{
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+	{
+		SCENE_MGR.ChangeScene(SceneIds::Game);
+	}
+}
+
+void SceneGame::UpdatePause(float dt)
+{
 }
 
 void SceneGame::SpawnZombies(int count)
@@ -161,11 +249,11 @@ Bullet* SceneGame::TakeBullet()
 	return bullet;
 }
 
-void SceneGame::SpawnItem(Item::Types type, int qt)
+void SceneGame::SpawnItem(ItemTypes type, int qt)
 {
 	Item* item = itemPool.Take();
 	items.push_back(item);
-	Item::Types itemType = (Item::Types)Utils::RandomRange(0, Item::TotalTypes - 1);
+	ItemTypes itemType = (ItemTypes)Utils::RandomRange(0, Item::TotalTypes - 1);
 	item->SetType(itemType, qt);
 
 	sf::FloatRect bounds = tilemap->GetMovableBounds();
@@ -217,7 +305,21 @@ void SceneGame::ReturnBlood(Blood* blood)
 	bloods.remove(blood);
 }
 
-void SceneGame::OnUpgrade(int up)
+void SceneGame::OnUpgrade(Upgrade up)
 {
-	std::cout << up << std::endl;
+	switch (up)
+	{
+	case Upgrade::RateOfFire:
+	case Upgrade::ClipSize:
+	case Upgrade::MaxHealth:
+	case Upgrade::RunSpeed:
+		player->UpgradeStat(up);
+		break;
+	case Upgrade::HealthPickups:
+	case Upgrade::AmmoPickups:
+		itemGenerator->UpgradeItem(up);
+		break;
+	}
+	SetStatus(Status::InGame);
 }
+

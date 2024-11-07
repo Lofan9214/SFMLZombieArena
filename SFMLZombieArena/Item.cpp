@@ -86,10 +86,10 @@ void Item::FixedUpdate(float dt)
 	{
 		switch (type)
 		{
-		case Types::Health:
+		case ItemTypes::Health:
 			player->OnHealth(value);
 			break;
-		case Types::Ammo:
+		case ItemTypes::Ammo:
 			player->OnAmmo(value);
 			break;
 		default:
@@ -106,17 +106,17 @@ void Item::Draw(sf::RenderWindow& window)
 	debugBox.Draw(window);
 }
 
-void Item::SetType(Types type, int v)
+void Item::SetType(ItemTypes type, int v)
 {
 	this->type = type;
 	switch (this->type)
 	{
-	case Types::Health:
+	case ItemTypes::Health:
 		textureId = "graphics/health_pickup.png";
 		value = v;
 
 		break;
-	case Types::Ammo:
+	case ItemTypes::Ammo:
 		textureId = "graphics/ammo_pickup.png";
 		value = v;
 

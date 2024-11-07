@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "SceneGame.h"
 #include "Bullet.h"
+#include "UiUpgrade.h"
 
 Player::Player(const std::string& name)
 	: GameObject(name), sceneGame(nullptr)
@@ -77,6 +78,8 @@ void Player::Reset()
 	ammo = 15;
 	totalAmmo = 150;
 	clip = 15;
+	shootDelay = 0.5f;
+	speed = 500.f;
 }
 
 void Player::LateUpdate(float dt)
@@ -129,8 +132,16 @@ void Player::Update(float dt)
 		reloadTimer += dt;
 		if (reloadTimer > reloadDelay)
 		{
-			totalAmmo -= clip;
-			ammo = clip;
+			if (totalAmmo < clip)
+			{
+				ammo = totalAmmo;
+				totalAmmo = 0;
+			}
+			else
+			{
+				totalAmmo -= clip;
+				ammo = clip;
+			}
 			isReloading = false;
 		}
 	}
@@ -207,7 +218,7 @@ void Player::OnDamage(int d)
 	{
 		isDamaged = true;
 		damageTimer = 0.f;
-		hp -= d;
+		hp = Utils::Clamp(hp - d, 0, maxHp);
 		debugBox.SetOutlineColor(sf::Color::Red);
 		body.setColor(sf::Color(127, 127, 127, 255));
 	}
@@ -215,5 +226,25 @@ void Player::OnDamage(int d)
 	if (hp > 0)
 	{
 		return;
+	}
+}
+
+void Player::UpgradeStat(Upgrade upgrade)
+{
+	switch (upgrade)
+	{
+	case Upgrade::RateOfFire:
+		shootDelay *= 0.9;
+		break;
+	case Upgrade::ClipSize:
+		clip += 5;
+		break;
+	case Upgrade::MaxHealth:
+		maxHp += 50;
+		hp += 50;
+		break;
+	case Upgrade::RunSpeed:
+		speed += 100.f;
+		break;
 	}
 }
