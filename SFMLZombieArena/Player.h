@@ -16,11 +16,18 @@ protected:
 
 	SceneGame* sceneGame;
 
-	int hp = 10;
+	int hp = 100;
+	int maxHp = 100;
 	int ammo = 10;
+	int totalAmmo = 150;
+	int clip = 15;
 
 	float shootTimer = 0.5f;
 	float shootDelay = 0.5f;
+	float reloadTimer = 0.f;
+	float reloadDelay = 1.f;
+
+	bool isReloading = false;
 
 	sf::FloatRect movableBounds;
 
@@ -40,6 +47,8 @@ public:
 	sf::FloatRect GetLocalBounds() const override { return body.getLocalBounds(); }
 	sf::FloatRect GetGlobalBounds() const override { return body.getGlobalBounds(); }
 
+	void SetMovableBounds(const sf::FloatRect& bounds);
+
 	void Init() override;
 	void Release() override;
 	void Reset() override;
@@ -49,8 +58,14 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void Shoot();
+	void Reload();
 
 	void OnHealth(int hp);
 	void OnAmmo(int ammo);
 	void OnDamage(int d);
+
+	int GetTotalAmmo() { return totalAmmo; }
+	int GetAmmo() { return ammo; }
+	int GetHp() { return hp; }
+	int GetMaxHp() { return maxHp; }
 };

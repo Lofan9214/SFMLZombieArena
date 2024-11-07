@@ -8,6 +8,7 @@ protected:
 	std::list<GameObject*> removeGameObjects;
 
 	sf::View worldView;
+	sf::View uiView;
 
 public:
 	const SceneIds id;
@@ -45,5 +46,9 @@ public:
 
 	sf::Vector2f ScreenToWorld(sf::Vector2i screenPos);
 	sf::Vector2i WorldToScreen(sf::Vector2f worldPos);
+
+	sf::Vector2f ScreenToUi(sf::Vector2i screenPos);
+	sf::Vector2i UiToScreen(sf::Vector2f uiPos);
+
 };
 

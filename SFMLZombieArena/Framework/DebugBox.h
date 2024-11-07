@@ -11,7 +11,7 @@ public:
 
 	void SetBounds(const sf::FloatRect& bounds);
 	void SetVisible(bool v) { isVisible = v; }
-	bool IsVisible() { return isVisible; }
+	bool IsVisible() const { return isVisible; }
 
 	void Draw(sf::RenderWindow& window);
 

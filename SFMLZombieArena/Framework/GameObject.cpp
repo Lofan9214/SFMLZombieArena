@@ -9,5 +9,6 @@ GameObject::GameObject(const std::string& name)
 void GameObject::SetOrigin(Origins preset)
 {
 	originPreset = preset;
+	origin = { 0.f, 0.f };
 }
 

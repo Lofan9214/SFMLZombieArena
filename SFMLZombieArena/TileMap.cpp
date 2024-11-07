@@ -29,10 +29,11 @@ void TileMap::SetOrigin(Origins preset)
 	originPreset = preset;
 	if (originPreset != Origins::Custom)
 	{
-		origin.x = cellCount.x * cellSize.x * ((int)preset % 3) * 0.5f;
-		origin.y = cellCount.y * cellSize.y * ((int)preset / 3) * 0.5f;
-		UpdateTransform();
+		sf::FloatRect rect = GetLocalBounds();
+		origin.x = rect.width * ((int)preset % 3) * 0.5f;
+		origin.y = rect.height * ((int)preset / 3) * 0.5f;
 	}
+	UpdateTransform();
 }
 
 void TileMap::SetOrigin(const sf::Vector2f& newOrigin)

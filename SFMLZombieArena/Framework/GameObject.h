@@ -4,7 +4,7 @@ class GameObject
 {
 protected:
 	std::string name;
-	
+
 	bool active = true;
 
 	float rotation;
@@ -14,6 +14,7 @@ protected:
 
 	Origins originPreset;
 	sf::Vector2f origin;
+	HitBox hitBox;
 
 public:
 	SortingLayers sortingLayer = SortingLayers::Default;
@@ -47,6 +48,10 @@ public:
 
 	float GetRotation() const { return rotation; }
 	virtual void SetRotation(float angle) { rotation = angle; }
+	
+	virtual const HitBox& GetHitBox() const { return hitBox; }
+
+	virtual HitBox& GetHitBox() { return hitBox; }
 
 	virtual void Init() = 0;
 	virtual void Release() = 0;

@@ -2,7 +2,6 @@
 #include "Zombie.h"
 #include "SceneGame.h"
 #include "Player.h"
-#include "TileMap.h"
 
 Zombie::Zombie(const std::string& name)
 	: GameObject(name)
@@ -43,6 +42,16 @@ void Zombie::SetOrigin(const sf::Vector2f& newOrigin)
 	body.setOrigin(origin);
 }
 
+void Zombie::SetMovableBounds(const sf::FloatRect& bounds)
+{
+	movableBounds = bounds;
+	sf::FloatRect zombieRect = GetLocalBounds();
+	movableBounds.left += zombieRect.width * 0.5f;
+	movableBounds.width -= zombieRect.width;
+	movableBounds.top += zombieRect.height * 0.5f;
+	movableBounds.height -= zombieRect.height;
+}
+
 void Zombie::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
@@ -64,13 +73,6 @@ void Zombie::Reset()
 	SetPosition({ 0.f,0.f });
 	SetRotation(0.f);
 	SetScale({ 1.f,1.f });
-
-	movableBounds = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("TileMap"))->GetMovableBounds();
-	sf::FloatRect zombieRect = GetLocalBounds();
-	movableBounds.left += zombieRect.width * 0.5f;
-	movableBounds.width -= zombieRect.width;
-	movableBounds.top += zombieRect.height * 0.5f;
-	movableBounds.height -= zombieRect.height;
 }
 
 void Zombie::LateUpdate(float dt)
@@ -103,6 +105,7 @@ void Zombie::Update(float dt)
 		SetPosition(newpos);
 		SetPosition(position + direction * speed * dt);
 	}
+	hitBox.UpdateTr(body, body.getLocalBounds());
 	debugBox.SetBounds(GetGlobalBounds());
 }
 
@@ -122,7 +125,7 @@ void Zombie::FixedUpdate(float dt)
 	sf::FloatRect bounds = GetGlobalBounds();
 	sf::FloatRect playerBounds = player->GetGlobalBounds();
 
-	if (bounds.intersects(playerBounds))
+	if (bounds.intersects(playerBounds)&& Utils::CheckCollision(hitBox,player->GetHitBox()))
 	{
 		debugBox.SetOutlineColor(sf::Color::Red);
 		player->OnDamage(damage);

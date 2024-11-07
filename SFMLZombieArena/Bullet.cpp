@@ -64,7 +64,7 @@ void Bullet::Reset()
 
 	direction = { 0.f,0.f };
 	speed = 0;
-	damage = 0;
+	damage = 25;
 }
 
 void Bullet::LateUpdate(float dt)
@@ -76,6 +76,7 @@ void Bullet::Update(float dt)
 	SetPosition(position + direction * speed * dt);
 
 	debugBox.SetBounds(GetGlobalBounds());
+	hitBox.UpdateTr(body, GetLocalBounds());
 }
 
 void Bullet::Draw(sf::RenderWindow& window)
@@ -100,7 +101,7 @@ void Bullet::FixedUpdate(float dt)
 		sf::FloatRect bounds = GetGlobalBounds();
 		sf::FloatRect zombieBounds = zombie->GetGlobalBounds();
 
-		if (bounds.intersects(zombieBounds))
+		if (bounds.intersects(zombieBounds)&&Utils::CheckCollision(GetHitBox(), zombie->GetHitBox()))
 		{
 			debugBox.SetOutlineColor(sf::Color::Red);
 			zombie->OnDamage(damage);

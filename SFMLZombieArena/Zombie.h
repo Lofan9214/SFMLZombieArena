@@ -49,6 +49,7 @@ public:
 
 	sf::FloatRect GetLocalBounds() const override { return body.getLocalBounds(); }
 	sf::FloatRect GetGlobalBounds() const override { return body.getGlobalBounds(); }
+	void SetMovableBounds(const sf::FloatRect& bounds);
 
 	void Init() override;
 	void Release() override;

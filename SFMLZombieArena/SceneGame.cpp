@@ -6,6 +6,9 @@
 #include "Bullet.h"
 #include "ItemGenerator.h"
 #include "Item.h"
+#include "UiHud.h"
+#include "UiUpgrade.h"
+#include "UiGameOver.h"
 
 SceneGame::SceneGame()
 	:Scene(SceneIds::Game)
@@ -17,6 +20,9 @@ void SceneGame::Init()
 	tilemap = AddGo(new TileMap("TileMap"));
 	player = AddGo(new Player("Player"));
 	AddGo(new ItemGenerator("ItemGenerator"));
+	uiHud = AddGo(new UiHud("UiHud"));
+	uiUpgrade = AddGo(new UiUpgrade("UiUpgrade"));
+	uiGameOver = AddGo(new UiGameOver("UiGameOver"));
 
 
 	Scene::Init();
@@ -29,13 +35,30 @@ void SceneGame::Release()
 
 void SceneGame::Enter()
 {
-	worldView.setSize(FRAMEWORK.GetWindowSizef());
+	FRAMEWORK.GetWindow().setMouseCursorVisible(false);
+
+	cursor.setTexture(TEXTURE_MGR.Get("graphics/crosshair.png"));
+	Utils::SetOrigin(cursor, Origins::MC);
+
+	sf::Vector2f size = FRAMEWORK.GetWindowSizef();
+
+	worldView.setSize(size);
 	worldView.setCenter(0.f, 0.f);
+
+	uiView.setSize(size);
+	uiView.setCenter(size * 0.5f);
+	uiUpgrade->SetActive(false);
+	uiGameOver->SetActive(false);
+
+	score = 0;
+
 	Scene::Enter();
+	player->SetMovableBounds(tilemap->GetMovableBounds());
 }
 
 void SceneGame::Exit()
 {
+	FRAMEWORK.GetWindow().setMouseCursorVisible(true);
 	for (auto zombie : zombies)
 	{
 		RemoveGo(zombie);
@@ -62,7 +85,13 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
+	sf::Vector2f mousePos = ScreenToUi(InputMgr::GetMousePosition());
+	cursor.setPosition(mousePos);
+	
 	Scene::Update(dt);
+
+	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
+	uiHud->SetHp(player->GetHp(), player->GetMaxHp());
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
 	{
@@ -72,11 +101,29 @@ void SceneGame::Update(float dt)
 	{
 		SpawnZombies(100);
 	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F6))
+	{
+		uiUpgrade->SetActive(!uiUpgrade->IsActive());
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F7))
+	{
+		uiGameOver->SetActive(!uiGameOver->IsActive());
+	}
 
 	if (player != nullptr)
 	{
 		worldView.setCenter(player->GetPosition());
 	}
+}
+
+void SceneGame::Draw(sf::RenderWindow& window)
+{
+	Scene::Draw(window);
+
+	const sf::View& previousView = window.getView();
+	window.setView(uiView);
+	window.draw(cursor);
+	window.setView(previousView);
 }
 
 void SceneGame::SpawnZombies(int count)
@@ -85,7 +132,7 @@ void SceneGame::SpawnZombies(int count)
 	{
 		Zombie* zombie = zombiePool.Take();
 		zombies.push_back(zombie);
-
+		zombie->SetMovableBounds(tilemap->GetMovableBounds());
 		Zombie::Types zombieType = (Zombie::Types)Utils::RandomRange(0, Zombie::TotalTypes - 1);
 		zombie->SetType(zombieType);
 
@@ -142,4 +189,9 @@ void SceneGame::ReturnBullet(Bullet* bullet)
 	RemoveGo(bullet);
 	bulletPool.Return(bullet);
 	bullets.remove(bullet);
+}
+
+void SceneGame::OnUpgrade(int up)
+{
+	std::cout << up << std::endl;
 }

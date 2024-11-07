@@ -35,13 +35,15 @@ void TextGo::Reset()
 
 void TextGo::SetPosition(const sf::Vector2f& pos)
 {
-	GameObject::SetPosition(pos);
+	position = pos;
 	text.setPosition(pos);
 }
 
-void TextGo::SetScale(const sf::Vector2f& scale)
+
+
+void TextGo::SetScale(const sf::Vector2f& s)
 {
-	GameObject::SetScale(scale);
+	scale = s;
 	text.setScale(scale);
 }
 
@@ -60,7 +62,7 @@ void TextGo::Draw(sf::RenderWindow& window)
 
 void TextGo::SetRotation(float angle)
 {
-	GameObject::SetRotation(angle);
+	rotation = angle;
 	text.setRotation(angle);
 }
 

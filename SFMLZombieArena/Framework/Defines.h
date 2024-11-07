@@ -4,8 +4,8 @@ enum class SortingLayers
 {
 	Background,
 	Foreground,
-	UI,
 	Default,
+	UI,
 };
 
 enum class SceneIds

@@ -4,14 +4,19 @@
 #include <list>
 #include <queue>
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include <bitset>
 #include <iostream>
+#include <limits>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "Variables.h"
 #include "Defines.h"
+#include "DebugBox.h"
+#include "HitBox.h"
 #include "Utils.h"
 #include "Singleton.h"
 #include "Framework.h"
@@ -20,5 +25,5 @@
 #include "GameObject.h"
 #include "SceneMgr.h"
 #include "ObjectPool.h"
-#include "DebugBox.h"
+#include "SoundMgr.h"
 

@@ -74,6 +74,7 @@ void Item::Update(float dt)
 {
 	debugBox.SetOutlineColor(sf::Color::Green);
 	debugBox.SetBounds(GetGlobalBounds());
+	hitBox.UpdateTr(body, body.getLocalBounds());
 }
 
 void Item::FixedUpdate(float dt)
@@ -81,7 +82,7 @@ void Item::FixedUpdate(float dt)
 	sf::FloatRect bodyRect = GetGlobalBounds();
 	sf::FloatRect playerRect = player->GetGlobalBounds();
 
-	if (bodyRect.intersects(playerRect))
+	if (bodyRect.intersects(playerRect) && Utils::CheckCollision(hitBox, player->GetHitBox()))
 	{
 		switch (type)
 		{
@@ -96,6 +97,7 @@ void Item::FixedUpdate(float dt)
 		}
 		sceneGame->OnItemTake(this);
 	}
+	debugBox.SetBounds(GetGlobalBounds());
 }
 
 void Item::Draw(sf::RenderWindow& window)

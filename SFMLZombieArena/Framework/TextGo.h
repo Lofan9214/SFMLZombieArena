@@ -8,7 +8,7 @@ protected:
 
 public:
 
-	TextGo(const std::string& fontId, const std::string& name = "");
+	TextGo(const std::string& fontId = "", const std::string& name = "");
 	~TextGo() = default;
 
 	void SetOrigin(Origins preset);

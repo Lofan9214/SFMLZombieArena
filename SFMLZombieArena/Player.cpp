@@ -2,10 +2,9 @@
 #include "Player.h"
 #include "SceneGame.h"
 #include "Bullet.h"
-#include "TileMap.h"
 
 Player::Player(const std::string& name)
-	: GameObject(name)
+	: GameObject(name), sceneGame(nullptr)
 {
 }
 
@@ -43,6 +42,16 @@ void Player::SetOrigin(const sf::Vector2f& newOrigin)
 	body.setOrigin(origin);
 }
 
+void Player::SetMovableBounds(const sf::FloatRect& bounds)
+{
+	movableBounds = bounds;
+	sf::FloatRect playerRect = GetLocalBounds();
+	movableBounds.left += playerRect.width * 0.5f;
+	movableBounds.width -= playerRect.width;
+	movableBounds.top += playerRect.height * 0.5f;
+	movableBounds.height -= playerRect.height;
+}
+
 void Player::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
@@ -62,12 +71,12 @@ void Player::Reset()
 	SetPosition({ 0.f,0.f });
 	SetRotation(0.f);
 	direction = { 0.f,0.f };
-	movableBounds = dynamic_cast<TileMap*>(sceneGame->FindGo("TileMap"))->GetMovableBounds();
-	sf::FloatRect playerRect = GetLocalBounds();
-	movableBounds.left += playerRect.width * 0.5f;
-	movableBounds.width -= playerRect.width;
-	movableBounds.top += playerRect.height * 0.5f;
-	movableBounds.height -= playerRect.height;
+
+	hp = 100;
+	maxHp = 100;
+	ammo = 15;
+	totalAmmo = 150;
+	clip = 15;
 }
 
 void Player::LateUpdate(float dt)
@@ -115,11 +124,28 @@ void Player::Update(float dt)
 	SetPosition(newpos);
 
 	shootTimer += dt;
-	if (shootTimer > shootDelay && InputMgr::GetMouseButtonPressing(sf::Mouse::Left))
+	if (isReloading)
 	{
+		reloadTimer += dt;
+		if (reloadTimer > reloadDelay)
+		{
+			totalAmmo -= clip;
+			ammo = clip;
+			isReloading = false;
+		}
+	}
+	else if (ammo <= 0 || InputMgr::GetKeyDown(sf::Keyboard::R))
+	{
+		Reload();
+	}
+	else if (InputMgr::GetMouseButtonPressing(sf::Mouse::Left) && shootTimer > shootDelay)
+	{
+		--ammo;
 		shootTimer = 0.f;
 		Shoot();
 	}
+
+	hitBox.UpdateTr(body, body.getLocalBounds());
 
 	debugBox.SetBounds(GetGlobalBounds());
 	debugBox.SetOutlineColor(sf::Color::Green);
@@ -141,17 +167,36 @@ void Player::Shoot()
 	bullet->Fire(position, look, 800.f, 10);
 }
 
+void Player::Reload()
+{
+	if (!isReloading)
+	{
+		isReloading = true;
+		reloadTimer = 0.f;
+		totalAmmo += ammo;
+		ammo = 0;
+	}
+}
+
 void Player::OnHealth(int hp)
 {
-	this->hp += hp;
+	debugBox.SetOutlineColor(sf::Color::Blue);
+	this->hp = Utils::Clamp(this->hp + hp, 0, maxHp);
 }
 
 void Player::OnAmmo(int ammo)
 {
-	this->ammo += ammo;
+	debugBox.SetOutlineColor(sf::Color::Yellow);
+	this->totalAmmo += ammo;
 }
 
 void Player::OnDamage(int d)
 {
+	hp -= d;
 	debugBox.SetOutlineColor(sf::Color::Red);
+	if (hp > 0)
+	{
+		return;
+	}
+
 }
