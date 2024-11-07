@@ -84,7 +84,7 @@ void BombIcon::Update(float dt)
 
 	for (int i = vac - 1; i > 0; --i)
 	{
-		float angle = ((10 - i) / 9.f * 2.f * ratio - 0.5f) * Utils::PI;
+		float angle = ((10 - i) / 9.f * 2.f * (1 - ratio) - 0.5f) * Utils::PI;
 		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
 		mask[i].position += iconsize * 0.5f;
 	}
