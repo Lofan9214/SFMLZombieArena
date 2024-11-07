@@ -10,6 +10,10 @@ protected:
 	sf::Sprite body;
 	std::string textureId = "graphics/player.png";
 
+	std::string shootSBId = "sound/shoot.wav";
+	std::string reloadSBId = "sound/reload.wav";
+	std::string hitSBId = "sound/hit.wav";
+
 	sf::Vector2f direction;
 	sf::Vector2f look;
 

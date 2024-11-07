@@ -85,7 +85,7 @@ void UiUpgrade::Update(float dt)
 		timer = 0.f;
 		return;
 	}
-	timer += dt;
+	timer += FRAMEWORK.GetRealDeltaTime();
 	if (timer < 1.5f)
 	{
 		return;

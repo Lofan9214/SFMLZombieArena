@@ -1,14 +1,17 @@
 #pragma once
 
-class UiGameOver : public GameObject
+class UiGameMessage : public GameObject
 {
 protected:
 
 	sf::Text textGameOver;
+	sf::Text textGameStart;
+
+	bool isGameOver;
 
 public:
-	UiGameOver(const std::string& name = "");
-	~UiGameOver() = default;
+	UiGameMessage(const std::string& name = "");
+	~UiGameMessage() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -24,4 +27,6 @@ public:
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void SetStat(bool isGameOver);
 };

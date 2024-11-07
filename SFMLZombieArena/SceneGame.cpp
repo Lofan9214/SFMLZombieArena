@@ -9,7 +9,7 @@
 #include "Item.h"
 #include "UiHud.h"
 #include "UiUpgrade.h"
-#include "UiGameOver.h"
+#include "UiGameMessage.h"
 
 SceneGame::SceneGame()
 	:Scene(SceneIds::Game)
@@ -23,8 +23,9 @@ void SceneGame::Init()
 	itemGenerator = AddGo(new ItemGenerator("ItemGenerator"));
 	uiHud = AddGo(new UiHud("UiHud"));
 	uiUpgrade = AddGo(new UiUpgrade("UiUpgrade"));
-	uiGameOver = AddGo(new UiGameOver("UiGameOver"));
-
+	uiGameMessage = AddGo(new UiGameMessage("UiGameMessage"));
+	SOUNDBUFFER_MGR.Load("sound/cunning_city.mp3", true);
+	SOUND_MGR.PlayBgm("sound/cunning_city.mp3");
 
 	Scene::Init();
 }
@@ -49,7 +50,7 @@ void SceneGame::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(size * 0.5f);
 	uiUpgrade->SetActive(false);
-	uiGameOver->SetActive(false);
+	uiGameMessage->SetActive(false);
 
 	itemGenerator->SetActive(false);
 
@@ -143,7 +144,7 @@ void SceneGame::SetStatus(Status status)
 	Status prev = currentStatus;
 	currentStatus = status;
 
-	uiGameOver->SetActive(false);
+	uiGameMessage->SetActive(false);
 	itemGenerator->SetActive(false);
 	FRAMEWORK.SetTimeScale(0.f);
 
@@ -151,6 +152,9 @@ void SceneGame::SetStatus(Status status)
 	switch (currentStatus)
 	{
 	case SceneGame::Status::Awake:
+		uiGameMessage->SetActive(true);
+		uiGameMessage->SetStat(false);
+
 		break;
 	case SceneGame::Status::InGame:
 		FRAMEWORK.SetTimeScale(1.f);
@@ -161,7 +165,8 @@ void SceneGame::SetStatus(Status status)
 		spawncount = wutheringWave * 10;
 		break;
 	case SceneGame::Status::GameOver:
-		uiGameOver->SetActive(true);
+		uiGameMessage->SetActive(true);
+		uiGameMessage->SetStat(true);
 		break;
 	case SceneGame::Status::Upgrade:
 		uiUpgrade->SetActive(true);
@@ -272,6 +277,7 @@ void SceneGame::SpawnItem(ItemTypes type, int qt)
 
 void SceneGame::OnItemTake(Item* item)
 {
+	SOUND_MGR.PlaySfx("sound/pickup.wav");
 	RemoveGo(item);
 	itemPool.Return(item);
 	items.remove(item);
@@ -323,6 +329,7 @@ void SceneGame::ReturnBlood(Blood* blood)
 
 void SceneGame::OnUpgrade(Upgrade up)
 {
+	SOUND_MGR.PlaySfx("sound/powerup.wav");
 	switch (up)
 	{
 	case Upgrade::RateOfFire:

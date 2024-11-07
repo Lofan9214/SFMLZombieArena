@@ -9,7 +9,7 @@ class Blood;
 class UiHud;
 class ItemGenerator;
 class UiUpgrade;
-class UiGameOver;
+class UiGameMessage;
 class Item;
 enum class ItemTypes;
 enum class Upgrade;
@@ -34,7 +34,7 @@ protected:
 	TileMap* tilemap;
 	UiHud* uiHud;
 	UiUpgrade* uiUpgrade;
-	UiGameOver* uiGameOver;
+	UiGameMessage* uiGameMessage;
 	ItemGenerator* itemGenerator;
 	
 	std::list<Zombie*> zombies;

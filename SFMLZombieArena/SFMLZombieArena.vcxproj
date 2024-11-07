@@ -171,7 +171,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="UiGameOver.cpp" />
+    <ClCompile Include="UiGameMessage.cpp" />
     <ClCompile Include="UiHud.cpp" />
     <ClCompile Include="UiUpgrade.cpp" />
     <ClCompile Include="Zombie.cpp" />
@@ -203,7 +203,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="TileMap.h" />
-    <ClInclude Include="UiGameOver.h" />
+    <ClInclude Include="UiGameMessage.h" />
     <ClInclude Include="UiHud.h" />
     <ClInclude Include="UiUpgrade.h" />
     <ClInclude Include="Zombie.h" />

@@ -89,6 +89,11 @@ void Player::LateUpdate(float dt)
 
 void Player::Update(float dt)
 {
+	if (dt <= 0.f)
+	{
+		return;
+	}
+
 	direction.x = InputMgr::GetAxis(Axis::Horizontal);
 	direction.y = InputMgr::GetAxis(Axis::Vertical);
 
@@ -152,11 +157,8 @@ void Player::Update(float dt)
 	}
 	else if (InputMgr::GetMouseButtonPressing(sf::Mouse::Left) && shootTimer > shootDelay)
 	{
-		--ammo;
-		shootTimer = 0.f;
 		Shoot();
 	}
-
 
 	if (isDamaged)
 	{
@@ -186,6 +188,9 @@ void Player::Draw(sf::RenderWindow& window)
 
 void Player::Shoot()
 {
+	SOUND_MGR.PlaySfx(shootSBId);
+	--ammo;
+	shootTimer = 0.f;
 	Bullet* bullet = sceneGame->TakeBullet();
 	bullet->Fire(position, look, 800.f, 10);
 }
@@ -194,6 +199,8 @@ void Player::Reload()
 {
 	if (!isReloading)
 	{
+		SOUND_MGR.PlaySfx(reloadSBId);
+
 		isReloading = true;
 		reloadTimer = 0.f;
 		totalAmmo += ammo;
@@ -217,6 +224,7 @@ void Player::OnDamage(int d)
 {
 	if (!isDamaged)
 	{
+		SOUND_MGR.PlaySfx(hitSBId);
 		isDamaged = true;
 		damageTimer = 0.f;
 		hp = Utils::Clamp(hp - d, 0, maxHp);
