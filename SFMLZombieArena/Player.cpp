@@ -80,6 +80,7 @@ void Player::Reset()
 	clip = 15;
 	shootDelay = 0.5f;
 	speed = 500.f;
+	body.setColor(sf::Color::White);
 }
 
 void Player::LateUpdate(float dt)
@@ -226,6 +227,10 @@ void Player::OnDamage(int d)
 	if (hp > 0)
 	{
 		return;
+	}
+	if (sceneGame != nullptr)
+	{
+		sceneGame->OnPlayerDie();
 	}
 }
 

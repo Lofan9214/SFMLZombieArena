@@ -38,7 +38,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SetScore(int s);
-	void SetHiScore(int s);
+	void SetHighScore(int s);
 	void SetAmmo(int current, int total);
 	void SetHp(int hp, int max);
 	void SetWave(int w);

@@ -100,7 +100,7 @@ void UiHud::Reset()
 	textWave.setPosition(size.x - 400.f, bottomY);
 	textZombieCount.setPosition(size.x - 25.f, bottomY);
 	SetScore(0);
-	SetHiScore(0);
+	SetHighScore(0);
 	SetAmmo(0, 0);
 	SetHp(1, 1);
 	SetWave(0);
@@ -137,7 +137,7 @@ void UiHud::SetScore(int s)
 	Utils::SetOrigin(textScore, Origins::TL);
 }
 
-void UiHud::SetHiScore(int s)
+void UiHud::SetHighScore(int s)
 {
 	textHiScore.setString("HI SCORE: " + std::to_string(s));
 	Utils::SetOrigin(textHiScore, Origins::TR);

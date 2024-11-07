@@ -11,11 +11,16 @@ enum class Upgrade
 	Count,
 };
 
+class SceneGame;
+
 class UiUpgrade : public GameObject
 {
 protected:
 	std::vector<sf::Text> upgrades;
 	sf::Sprite background;
+
+	SceneGame* sceneGame;
+	float timer;
 
 public:
 	UiUpgrade(const std::string& name = "");

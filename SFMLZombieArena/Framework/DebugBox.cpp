@@ -15,5 +15,8 @@ void DebugBox::SetBounds(const sf::FloatRect& bounds)
 
 void DebugBox::Draw(sf::RenderWindow& window)
 {
-	window.draw(shape);
+	if (isVisible)
+	{
+		window.draw(shape);
+	}
 }

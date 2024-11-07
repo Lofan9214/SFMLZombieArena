@@ -56,6 +56,8 @@ void UiUpgrade::Release()
 
 void UiUpgrade::Reset()
 {
+	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+
 	background.setTexture(TEXTURE_MGR.Get("graphics/background.png"));
 	background.setPosition({ 0.f, 0.f });
 
@@ -78,26 +80,33 @@ void UiUpgrade::LateUpdate(float dt)
 
 void UiUpgrade::Update(float dt)
 {
-	SceneGame* sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
-	if (sceneGame != nullptr)
+	if (sceneGame == nullptr && !active)
 	{
-		sf::Vector2f mousePos = sceneGame->ScreenToUi(InputMgr::GetMousePosition());
+		timer = 0.f;
+		return;
+	}
+	timer += dt;
+	if (timer < 1.5f)
+	{
+		return;
+	}
 
-		for (int i = 0; i < upgrades.size();++i)
+	sf::Vector2f mousePos = sceneGame->ScreenToUi(InputMgr::GetMousePosition());
+
+	for (int i = 0; i < upgrades.size();++i)
+	{
+		if (upgrades[i].getGlobalBounds().contains(mousePos))
 		{
-			if (upgrades[i].getGlobalBounds().contains(mousePos))
+			upgrades[i].setFillColor(sf::Color::Red);
+			if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 			{
-				upgrades[i].setFillColor(sf::Color::Red);
-				if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
-				{
-					sceneGame->OnUpgrade((Upgrade)i);
-					return;
-				}
+				sceneGame->OnUpgrade((Upgrade)i);
+				return;
 			}
-			else
-			{
-				upgrades[i].setFillColor(sf::Color::White);
-			}
+		}
+		else
+		{
+			upgrades[i].setFillColor(sf::Color::White);
 		}
 	}
 }

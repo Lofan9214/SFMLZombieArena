@@ -55,7 +55,7 @@ void SceneGame::Enter()
 
 	score = 0;
 	wutheringWave = 0;
-
+	SetStatus(Status::Awake);
 	Scene::Enter();
 	player->SetMovableBounds(tilemap->GetMovableBounds());
 }
@@ -124,6 +124,8 @@ void SceneGame::Update(float dt)
 		UpdatePause(dt);
 		break;
 	}
+
+	UpdateHud();
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
@@ -141,10 +143,14 @@ void SceneGame::SetStatus(Status status)
 	Status prev = currentStatus;
 	currentStatus = status;
 
+	uiGameOver->SetActive(false);
+	itemGenerator->SetActive(false);
+	FRAMEWORK.SetTimeScale(0.f);
+
+
 	switch (currentStatus)
 	{
 	case SceneGame::Status::Awake:
-		FRAMEWORK.SetTimeScale(0.f);
 		break;
 	case SceneGame::Status::InGame:
 		FRAMEWORK.SetTimeScale(1.f);
@@ -155,17 +161,12 @@ void SceneGame::SetStatus(Status status)
 		spawncount = wutheringWave * 10;
 		break;
 	case SceneGame::Status::GameOver:
-		FRAMEWORK.SetTimeScale(0.f);
-		itemGenerator->SetActive(false);
 		uiGameOver->SetActive(true);
 		break;
 	case SceneGame::Status::Upgrade:
-		itemGenerator->SetActive(false);
 		uiUpgrade->SetActive(true);
 		break;
 	case SceneGame::Status::Pause:
-		itemGenerator->SetActive(false);
-		FRAMEWORK.SetTimeScale(0.f);
 		break;
 	}
 }
@@ -192,13 +193,8 @@ void SceneGame::UpdateInGame(float dt)
 			SpawnZombies(10);
 		}
 	}
-	int remainZombie = zombies.size();
-	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
-	uiHud->SetHp(player->GetHp(), player->GetMaxHp());
-	uiHud->SetWave(wutheringWave);
-	uiHud->SetZombieCount(remainZombie);
 
-	if (remainZombie <= 0 && spawncount <= 0)
+	if (zombies.size() <= 0 && spawncount <= 0)
 	{
 		SetStatus(Status::Upgrade);
 	}
@@ -210,8 +206,7 @@ void SceneGame::UpdateUpgrade(float dt)
 
 void SceneGame::UpdateGameOver(float dt)
 {
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
@@ -219,6 +214,16 @@ void SceneGame::UpdateGameOver(float dt)
 
 void SceneGame::UpdatePause(float dt)
 {
+}
+
+void SceneGame::UpdateHud()
+{
+	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
+	uiHud->SetHp(player->GetHp(), player->GetMaxHp());
+	uiHud->SetWave(wutheringWave);
+	uiHud->SetZombieCount(zombies.size());
+	uiHud->SetScore(score);
+	uiHud->SetHighScore(highScore);
 }
 
 void SceneGame::SpawnZombies(int count)
@@ -286,9 +291,20 @@ void SceneGame::OnZombieDie(Zombie* zombie)
 	AddGo(blood);
 	blood->SetPosition(zombie->GetPosition());
 
+	score += 10;
+	if (score > highScore)
+	{
+		highScore = score;
+	}
+
 	RemoveGo(zombie);
 	zombiePool.Return(zombie);
 	zombies.remove(zombie);
+}
+
+void SceneGame::OnPlayerDie()
+{
+	SetStatus(Status::GameOver);
 }
 
 void SceneGame::ReturnBullet(Bullet* bullet)

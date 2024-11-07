@@ -52,7 +52,7 @@ protected:
 	sf::Sprite cursor;
 
 	int score;
-	int hiscore;
+	int highScore;
 	int wutheringWave;
 	int spawncount;
 	float spawnTimer;
@@ -78,15 +78,17 @@ public:
 	void UpdateGameOver(float dt);
 	void UpdatePause(float dt);
 
+	void UpdateHud();
+
     void SpawnZombies(int count);
+    const std::list<Zombie*>& GetZombieList() const { return zombies; }
     Bullet* TakeBullet();
     void SpawnItem(ItemTypes type, int qt);
-    void OnItemTake(Item* item);
-
-
-    const std::list<Zombie*>& GetZombieList() const { return zombies; }
-
+    
+	void OnItemTake(Item* item);
 	void OnZombieDie(Zombie* zombie);
+	void OnPlayerDie();
+
 	void ReturnBullet(Bullet* bullet);
 	void ReturnBlood(Blood* blood);
 	

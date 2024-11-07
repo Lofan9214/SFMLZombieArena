@@ -66,6 +66,7 @@ void Blood::LateUpdate(float dt)
 void Blood::Update(float dt)
 {
 	timer += dt;
+	body.setColor({ 255,255,255,(sf::Uint8)(255 - (timer * 25.f)) });
 	if (timer > duration && sceneGame!=nullptr)
 	{
 		sceneGame->ReturnBlood(this);
