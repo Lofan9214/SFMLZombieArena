@@ -26,6 +26,8 @@ void SceneGame::Init()
 	uiGameMessage = AddGo(new UiGameMessage("UiGameMessage"));
 	SOUNDBUFFER_MGR.Load("sound/cunning_city.mp3", true);
 	SOUND_MGR.PlayBgm("sound/cunning_city.mp3");
+	SOUND_MGR.SetBgmVolume(20.f);
+	SOUND_MGR.SetSfxVolume(20.f);
 
 	Scene::Init();
 }
@@ -259,12 +261,11 @@ Bullet* SceneGame::TakeBullet()
 	return bullet;
 }
 
-void SceneGame::SpawnItem(ItemTypes type, int qt)
+void SceneGame::SpawnItem(Upgrade type, int qt)
 {
 	Item* item = itemPool.Take();
 	items.push_back(item);
-	ItemTypes itemType = (ItemTypes)Utils::RandomRange(0, Item::TotalTypes - 1);
-	item->SetType(itemType, qt);
+	item->SetType(type, qt);
 
 	sf::FloatRect bounds = tilemap->GetMovableBounds();
 	sf::Vector2f pos;

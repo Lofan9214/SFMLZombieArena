@@ -2,9 +2,10 @@
 #include "Item.h"
 #include "Player.h"
 #include "SceneGame.h"
+#include "UiUpgrade.h"
 
 Item::Item(const std::string& name)
-	: GameObject(name)
+	: GameObject(name),type(Upgrade::HealthPickups)
 {
 }
 
@@ -86,10 +87,10 @@ void Item::FixedUpdate(float dt)
 	{
 		switch (type)
 		{
-		case ItemTypes::Health:
+		case Upgrade::HealthPickups:
 			player->OnHealth(value);
 			break;
-		case ItemTypes::Ammo:
+		case Upgrade::AmmoPickups:
 			player->OnAmmo(value);
 			break;
 		default:
@@ -106,17 +107,17 @@ void Item::Draw(sf::RenderWindow& window)
 	debugBox.Draw(window);
 }
 
-void Item::SetType(ItemTypes type, int v)
+void Item::SetType(Upgrade type, int v)
 {
 	this->type = type;
 	switch (this->type)
 	{
-	case ItemTypes::Health:
+	case Upgrade::HealthPickups:
 		textureId = "graphics/health_pickup.png";
 		value = v;
 
 		break;
-	case ItemTypes::Ammo:
+	case Upgrade::AmmoPickups:
 		textureId = "graphics/ammo_pickup.png";
 		value = v;
 

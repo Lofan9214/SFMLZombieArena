@@ -2,19 +2,12 @@
 
 class Player;
 class SceneGame;
-
-enum class ItemTypes
-{
-	Health,
-	Ammo,
-};
+enum class Upgrade;
 
 class Item : public GameObject
 {
-public:
-	const static int TotalTypes = 2;
 protected:
-	ItemTypes type = ItemTypes::Health;
+	Upgrade type;
 	sf::Sprite body;
 	sf::String textureId;
 
@@ -46,6 +39,6 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void SetType(ItemTypes type, int v);
+	void SetType(Upgrade type, int v);
 };
 

@@ -83,7 +83,7 @@ public:
     void SpawnZombies(int count);
     const std::list<Zombie*>& GetZombieList() const { return zombies; }
     Bullet* TakeBullet();
-    void SpawnItem(ItemTypes type, int qt);
+    void SpawnItem(Upgrade type, int qt);
     
 	void OnItemTake(Item* item);
 	void OnZombieDie(Zombie* zombie);

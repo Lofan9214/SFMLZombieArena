@@ -151,13 +151,20 @@ void Player::Update(float dt)
 			isReloading = false;
 		}
 	}
-	else if (ammo <= 0 || InputMgr::GetKeyDown(sf::Keyboard::R))
+	else if (InputMgr::GetKeyDown(sf::Keyboard::R))
 	{
 		Reload();
 	}
 	else if (InputMgr::GetMouseButtonPressing(sf::Mouse::Left) && shootTimer > shootDelay)
 	{
-		Shoot();
+		if (ammo > 0)
+		{
+			Shoot();
+		}
+		else
+		{
+			Reload();
+		}
 	}
 
 	if (isDamaged)

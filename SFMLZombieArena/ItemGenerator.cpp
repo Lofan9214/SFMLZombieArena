@@ -75,12 +75,12 @@ void ItemGenerator::Update(float dt)
 	if (ammoTimer > ammoDelay)
 	{
 		ammoTimer = 0.f;
-		sceneGame->SpawnItem(ItemTypes::Ammo, ammo);
+		sceneGame->SpawnItem(Upgrade::AmmoPickups, ammo);
 	}
 	if (healthTimer > healthDelay)
 	{
 		healthTimer = 0.f;
-		sceneGame->SpawnItem(ItemTypes::Health, health);
+		sceneGame->SpawnItem(Upgrade::HealthPickups, health);
 	}
 }
 
