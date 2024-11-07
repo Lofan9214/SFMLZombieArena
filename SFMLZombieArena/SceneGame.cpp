@@ -245,8 +245,15 @@ void SceneGame::SpawnZombies(int count)
 
 		sf::FloatRect bounds = tilemap->GetGlobalBounds();
 		sf::Vector2f pos;
-		pos.x = Utils::RandomRange(bounds.left, bounds.left + bounds.width);
-		pos.y = Utils::RandomRange(bounds.top, bounds.top + bounds.height);
+		sf::Vector2f plpos = player->GetPosition();
+		sf::FloatRect forbid = { {plpos.x - 300.f,plpos.y - 300.f},{600.f,600.f} };
+
+		do
+		{
+			pos.x = Utils::RandomRange(bounds.left, bounds.left + bounds.width);
+			pos.y = Utils::RandomRange(bounds.top, bounds.top + bounds.height);
+		} while (forbid.contains(pos));
+
 		zombie->SetPosition(pos);
 
 		AddGo(zombie);
@@ -269,8 +276,14 @@ void SceneGame::SpawnItem(Upgrade type, int qt)
 
 	sf::FloatRect bounds = tilemap->GetMovableBounds();
 	sf::Vector2f pos;
-	pos.x = Utils::RandomRange(bounds.left, bounds.left + bounds.width);
-	pos.y = Utils::RandomRange(bounds.top, bounds.top + bounds.height);
+	sf::Vector2f plpos = player->GetPosition();
+	sf::FloatRect forbid = { {plpos.x - 300.f,plpos.y - 300.f},{600.f,600.f} };
+
+	do
+	{
+		pos.x = Utils::RandomRange(bounds.left, bounds.left + bounds.width);
+		pos.y = Utils::RandomRange(bounds.top, bounds.top + bounds.height);
+	} while (forbid.contains(pos));
 	item->SetPosition(pos);
 
 	AddGo(item);
