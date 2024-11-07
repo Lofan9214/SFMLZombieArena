@@ -1,6 +1,7 @@
 #pragma once
 
 class SceneGame;
+class BombIcon;
 enum class Upgrade;
 
 class Player : public GameObject
@@ -33,11 +34,15 @@ protected:
 	float reloadDelay = 1.f;
 	float damageTimer = 0.f;
 	float damageDelay = 1.f;
+	float bombTimer = 1.5f;
+	float bombDelay = 1.5f;
 
 	bool isReloading = false;
 	bool isDamaged = false;
 
 	sf::FloatRect movableBounds;
+
+	BombIcon* bombIcon;
 
 	DebugBox debugBox;
 
@@ -77,4 +82,6 @@ public:
 	int GetHp() { return hp; }
 	int GetMaxHp() { return maxHp; }
 	void UpgradeStat(Upgrade upgrade);
+
+	void SetBombIcon(BombIcon* bombicon) { bombIcon = bombicon; }
 };

@@ -11,6 +11,7 @@ class ItemGenerator;
 class UiUpgrade;
 class UiGameMessage;
 class Item;
+class Bomb;
 enum class ItemTypes;
 enum class Upgrade;
 
@@ -49,6 +50,9 @@ protected:
 	std::list<Blood*> bloods;
 	ObjectPool<Blood> bloodPool;
 
+	std::list<Bomb*> bombs;
+	ObjectPool<Bomb> bombPool;
+
 	sf::Sprite cursor;
 
 	int score;
@@ -83,10 +87,14 @@ public:
     void SpawnZombies(int count);
     const std::list<Zombie*>& GetZombieList() const { return zombies; }
     Bullet* TakeBullet();
+	Bomb* TakeBomb();
+
     void SpawnItem(Upgrade type, int qt);
     
 	void OnItemTake(Item* item);
+	
 	void OnZombieDie(Zombie* zombie);
+	void OnExplosionEnd(Bomb* bomb);
 	void OnPlayerDie();
 
 	void ReturnBullet(Bullet* bullet);

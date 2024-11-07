@@ -7,6 +7,7 @@
 #include "ItemGenerator.h"
 #include "Blood.h"
 #include "Item.h"
+#include "Bomb.h"
 #include "UiHud.h"
 #include "UiUpgrade.h"
 #include "UiGameMessage.h"
@@ -24,8 +25,8 @@ void SceneGame::Init()
 	uiHud = AddGo(new UiHud("UiHud"));
 	uiUpgrade = AddGo(new UiUpgrade("UiUpgrade"));
 	uiGameMessage = AddGo(new UiGameMessage("UiGameMessage"));
-	SOUNDBUFFER_MGR.Load("sound/cunning_city.mp3", true);
-	SOUND_MGR.PlayBgm("sound/cunning_city.mp3");
+	SOUNDBUFFER_MGR.Load("sound/bgm_suspect.ogg", true);
+	SOUND_MGR.PlayBgm("sound/bgm_suspect.ogg");
 	SOUND_MGR.SetBgmVolume(20.f);
 	SOUND_MGR.SetSfxVolume(20.f);
 
@@ -61,6 +62,7 @@ void SceneGame::Enter()
 	SetStatus(Status::Awake);
 	Scene::Enter();
 	player->SetMovableBounds(tilemap->GetMovableBounds());
+	player->SetBombIcon(uiHud->GetBombIcon());
 }
 
 void SceneGame::Exit()
@@ -93,6 +95,13 @@ void SceneGame::Exit()
 		bloodPool.Return(blood);
 	}
 	bloods.clear();
+
+	for (auto bomb : bombs)
+	{
+		RemoveGo(bomb);
+		bombPool.Return(bomb);
+	}
+	bombs.clear();
 
 	Scene::Exit();
 }
@@ -268,6 +277,14 @@ Bullet* SceneGame::TakeBullet()
 	return bullet;
 }
 
+Bomb* SceneGame::TakeBomb()
+{
+	Bomb* bomb = bombPool.Take();
+	bombs.push_back(bomb);
+	AddGo(bomb);
+	return bomb;
+}
+
 void SceneGame::SpawnItem(Upgrade type, int qt)
 {
 	Item* item = itemPool.Take();
@@ -325,6 +342,13 @@ void SceneGame::OnZombieDie(Zombie* zombie)
 void SceneGame::OnPlayerDie()
 {
 	SetStatus(Status::GameOver);
+}
+
+void SceneGame::OnExplosionEnd(Bomb* bomb)
+{
+	RemoveGo(bomb);
+	bombPool.Return(bomb);
+	bombs.remove(bomb);
 }
 
 void SceneGame::ReturnBullet(Bullet* bullet)

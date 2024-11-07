@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BombIcon.h"
+
 class UiHud : public GameObject
 {
 protected:
@@ -14,9 +16,10 @@ protected:
 	sf::Text textWave;
 	sf::Text textZombieCount;
 
+	BombIcon bombicon;
+
 	sf::Vector2f gaugeHpMaxSize = { 400.f,50.f };
 
-	
 
 public:
 	UiHud(const std::string& name = "");
@@ -44,4 +47,5 @@ public:
 	void SetWave(int w);
 	void SetZombieCount(int count);
 
+	BombIcon* GetBombIcon() { return &bombicon; }
 };

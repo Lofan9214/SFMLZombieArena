@@ -85,6 +85,8 @@ void UiHud::Reset()
 	iconAmmoIcon.setTexture(TEXTURE_MGR.Get("graphics/ammo_icon.png"));
 	Utils::SetOrigin(iconAmmoIcon, Origins::BL);
 
+	bombicon.Reset();
+	bombicon.SetOrigin(Origins::BL);
 
 	float topY = 25.f;
 	sf::Vector2f size = FRAMEWORK.GetWindowSizef();
@@ -95,6 +97,7 @@ void UiHud::Reset()
 
 	iconAmmoIcon.setPosition(25.f, bottomY);
 	gaugeHp.setPosition(300.f, bottomY);
+	bombicon.SetPosition({ 750.f, bottomY });
 
 	textAmmo.setPosition(100.f, bottomY);
 	textWave.setPosition(size.x - 400.f, bottomY);
@@ -113,6 +116,7 @@ void UiHud::LateUpdate(float dt)
 
 void UiHud::Update(float dt)
 {
+	bombicon.Update(dt);
 }
 
 void UiHud::FixedUpdate(float dt)
@@ -128,7 +132,7 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(gaugeHp);
 	window.draw(textAmmo);
 	window.draw(textZombieCount);
-
+	bombicon.Draw(window);
 }
 
 void UiHud::SetScore(int s)

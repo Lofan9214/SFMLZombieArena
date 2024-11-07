@@ -3,6 +3,8 @@
 #include "SceneGame.h"
 #include "Bullet.h"
 #include "UiUpgrade.h"
+#include "Bomb.h"
+#include "BombIcon.h"
 
 Player::Player(const std::string& name)
 	: GameObject(name), sceneGame(nullptr)
@@ -81,6 +83,7 @@ void Player::Reset()
 	shootDelay = 0.5f;
 	speed = 500.f;
 	body.setColor(sf::Color::White);
+	bombIcon = nullptr;
 }
 
 void Player::LateUpdate(float dt)
@@ -166,6 +169,20 @@ void Player::Update(float dt)
 			Reload();
 		}
 	}
+
+	bombTimer += dt;
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && bombTimer > bombDelay)
+	{
+		bombTimer = 0.f;
+		auto bomb = sceneGame->TakeBomb();
+		bomb->Fire(position,look, 500.f);
+	}
+	if (bombIcon != nullptr)
+	{
+		bombIcon->SetTime(bombTimer, bombDelay);
+	}
+
 
 	if (isDamaged)
 	{
