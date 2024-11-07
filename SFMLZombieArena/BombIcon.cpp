@@ -55,7 +55,7 @@ void BombIcon::Reset()
 	mask.setPrimitiveType(sf::PrimitiveType::TriangleFan);
 	mask.resize(11);
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
-	float radius = Utils::Distance({ 0.f,0.f }, iconsize * 0.5f);
+	float radius = Utils::Magnitude(iconsize * 0.5f);
 	mask[0].position = iconsize * 0.5f;
 	mask[0].color = sf::Color({ 90,90,90,0 });
 	int vac = mask.getVertexCount();
@@ -78,7 +78,7 @@ void BombIcon::LateUpdate(float dt)
 void BombIcon::Update(float dt)
 {
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
-	float radius = Utils::Distance({ 0.f,0.f }, iconsize * 0.5f);
+	float radius = Utils::Magnitude(iconsize * 0.5f);
 	int vac = mask.getVertexCount();
 	float ratio = Utils::Clamp01(timer / maxTime);
 
