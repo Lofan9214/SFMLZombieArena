@@ -61,7 +61,7 @@ void BombIcon::Reset()
 	int vac = mask.getVertexCount();
 	for (int i = 1; i < vac; ++i)
 	{
-		float angle = ((i - 1) / 5.f - 0.5f) * Utils::PI;
+		float angle = ((10 - i) / 9.f * 2.f - 0.5f) * Utils::PI;
 		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
 		mask[i].position += iconsize * 0.5f;
 		mask[i].color = sf::Color({ 90,90,90,0 });
