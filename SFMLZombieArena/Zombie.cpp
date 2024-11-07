@@ -55,7 +55,7 @@ void Zombie::SetMovableBounds(const sf::FloatRect& bounds)
 void Zombie::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
-	sortingOrder = 0;
+	sortingOrder = 1;
 	SetType(type);
 }
 

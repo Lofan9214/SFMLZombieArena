@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "SceneDev2.h"
-#include "SpriteGo.h"
 
 SceneDev2::SceneDev2() : Scene(SceneIds::Dev2)
 {

@@ -26,6 +26,8 @@ protected:
 	float shootDelay = 0.5f;
 	float reloadTimer = 0.f;
 	float reloadDelay = 1.f;
+	float damageTimer = 0.f;
+	float damageDelay = 1.f;
 
 	bool isReloading = false;
 

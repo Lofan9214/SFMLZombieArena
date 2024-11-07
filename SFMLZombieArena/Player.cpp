@@ -55,7 +55,7 @@ void Player::SetMovableBounds(const sf::FloatRect& bounds)
 void Player::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
-	sortingOrder = 0;
+	sortingOrder = 3;
 	SetOrigin(Origins::MC);
 }
 
@@ -198,5 +198,4 @@ void Player::OnDamage(int d)
 	{
 		return;
 	}
-
 }

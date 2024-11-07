@@ -1,23 +1,20 @@
 #pragma once
-#include "Item.h"
 
 class SceneGame;
 
-class ItemGenerator : public GameObject
+class Blood : public GameObject
 {
 protected:
+	sf::Sprite body;
+	sf::String textureId = "graphics/blood.png";
 	SceneGame* sceneGame;
 
-	int health = 10;
-	int ammo = 15;
+	float timer;
+	float duration;
 
-	float ammoTimer = 0.f;
-	float ammoDelay = 10.f;
-	float healthTimer = 0.f;
-	float healthDelay = 10.f;
 public:
-	ItemGenerator(const std::string& name = "");
-	~ItemGenerator() = default;
+	Blood(const std::string& name = "");
+	~Blood() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -26,6 +23,9 @@ public:
 	void SetOrigin(Origins preset) override;
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
 
+	sf::FloatRect GetLocalBounds() const override { return body.getLocalBounds(); }
+	sf::FloatRect GetGlobalBounds() const override { return body.getGlobalBounds(); }
+
 	void Init() override;
 	void Release() override;
 	void Reset() override;
@@ -33,6 +33,4 @@ public:
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
-	void Upgrade(Item::Types type);
 };

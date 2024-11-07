@@ -5,7 +5,7 @@
 #include "TileMap.h"
 #include "Bullet.h"
 #include "ItemGenerator.h"
-#include "Item.h"
+#include "Blood.h"
 #include "UiHud.h"
 #include "UiUpgrade.h"
 #include "UiGameOver.h"
@@ -19,7 +19,7 @@ void SceneGame::Init()
 {
 	tilemap = AddGo(new TileMap("TileMap"));
 	player = AddGo(new Player("Player"));
-	AddGo(new ItemGenerator("ItemGenerator"));
+	itemGenerator = AddGo(new ItemGenerator("ItemGenerator"));
 	uiHud = AddGo(new UiHud("UiHud"));
 	uiUpgrade = AddGo(new UiUpgrade("UiUpgrade"));
 	uiGameOver = AddGo(new UiGameOver("UiGameOver"));
@@ -80,6 +80,13 @@ void SceneGame::Exit()
 	}
 	items.clear();
 
+	for (auto blood : bloods)
+	{
+		RemoveGo(blood);
+		bloodPool.Return(blood);
+	}
+	bloods.clear();
+
 	Scene::Exit();
 }
 
@@ -87,7 +94,7 @@ void SceneGame::Update(float dt)
 {
 	sf::Vector2f mousePos = ScreenToUi(InputMgr::GetMousePosition());
 	cursor.setPosition(mousePos);
-	
+
 	Scene::Update(dt);
 
 	uiHud->SetAmmo(player->GetAmmo(), player->GetTotalAmmo());
@@ -154,12 +161,12 @@ Bullet* SceneGame::TakeBullet()
 	return bullet;
 }
 
-void SceneGame::SpawnItem()
+void SceneGame::SpawnItem(Item::Types type, int qt)
 {
 	Item* item = itemPool.Take();
 	items.push_back(item);
 	Item::Types itemType = (Item::Types)Utils::RandomRange(0, Item::TotalTypes - 1);
-	item->SetType(itemType);
+	item->SetType(itemType, qt);
 
 	sf::FloatRect bounds = tilemap->GetMovableBounds();
 	sf::Vector2f pos;
@@ -179,6 +186,18 @@ void SceneGame::OnItemTake(Item* item)
 
 void SceneGame::OnZombieDie(Zombie* zombie)
 {
+	Blood* blood;
+	if (bloods.size() > 10)
+	{
+		blood = bloods.front();
+		ReturnBlood(blood);
+	}
+
+	blood = bloodPool.Take();
+	bloods.push_back(blood);
+	AddGo(blood);
+	blood->SetPosition(zombie->GetPosition());
+
 	RemoveGo(zombie);
 	zombiePool.Return(zombie);
 	zombies.remove(zombie);
@@ -189,6 +208,13 @@ void SceneGame::ReturnBullet(Bullet* bullet)
 	RemoveGo(bullet);
 	bulletPool.Return(bullet);
 	bullets.remove(bullet);
+}
+
+void SceneGame::ReturnBlood(Blood* blood)
+{
+	RemoveGo(blood);
+	bloodPool.Return(blood);
+	bloods.remove(blood);
 }
 
 void SceneGame::OnUpgrade(int up)

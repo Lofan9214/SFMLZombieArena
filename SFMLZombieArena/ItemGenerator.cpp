@@ -47,6 +47,14 @@ void ItemGenerator::Release()
 void ItemGenerator::Reset()
 {
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+
+	health = 10;
+	ammo = 15;
+
+	ammoTimer = 0.f;
+	ammoDelay = 10.f;
+	healthTimer = 0.f;
+	healthDelay = 10.f;
 }
 
 void ItemGenerator::LateUpdate(float dt)
@@ -58,18 +66,25 @@ void ItemGenerator::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::O))
 	{
 		active = !active;
-		generatorTimer = 0.f;
+		ammoTimer = 0.f;
+		healthTimer = 0.f;
 	}
 	if (active)
 	{
-		generatorTimer += dt;
-		if (generatorTimer > generatorDelay)
+		ammoTimer += dt;
+		healthTimer += dt;
+
+		if (ammoTimer > ammoDelay)
 		{
-			generatorTimer = 0.f;
-			sceneGame->SpawnItem();
+			ammoTimer = 0.f;
+			sceneGame->SpawnItem(Item::Types::Ammo,ammo);
+		}
+		if (healthTimer > healthDelay)
+		{
+			healthTimer = 0.f;
+			sceneGame->SpawnItem(Item::Types::Health,health);
 		}
 	}
-
 }
 
 void ItemGenerator::FixedUpdate(float dt)
@@ -78,4 +93,22 @@ void ItemGenerator::FixedUpdate(float dt)
 
 void ItemGenerator::Draw(sf::RenderWindow& window)
 {
+}
+
+void ItemGenerator::Upgrade(Item::Types type)
+{
+	switch (type)
+	{
+	case Item::Types::Health:
+		health += 5;
+		healthDelay *= 0.95f;
+		break;
+	case Item::Types::Ammo:
+		ammo += 5;
+		ammoDelay *= 0.95f;
+
+		break;
+	default:
+		break;
+	}
 }

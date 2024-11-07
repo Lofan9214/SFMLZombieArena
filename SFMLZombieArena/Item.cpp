@@ -46,7 +46,7 @@ void Item::Init()
 {
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
-	SetType(type);
+	SetType(type, 0);
 }
 
 void Item::Release()
@@ -106,19 +106,19 @@ void Item::Draw(sf::RenderWindow& window)
 	debugBox.Draw(window);
 }
 
-void Item::SetType(Types type)
+void Item::SetType(Types type, int v)
 {
 	this->type = type;
 	switch (this->type)
 	{
 	case Types::Health:
 		textureId = "graphics/health_pickup.png";
-		value = 2;
+		value = v;
 
 		break;
 	case Types::Ammo:
 		textureId = "graphics/ammo_pickup.png";
-		value = 2;
+		value = v;
 
 		break;
 	default:

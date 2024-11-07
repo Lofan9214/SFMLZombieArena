@@ -1,12 +1,14 @@
 #pragma once
 #include "Scene.h"
+#include "Item.h"
 
 class Player;
 class Zombie;
 class TileMap;
 class Bullet;
-class Item;
+class Blood;
 class UiHud;
+class ItemGenerator;
 class UiUpgrade;
 class UiGameOver;
 
@@ -19,6 +21,7 @@ protected:
 	UiHud* uiHud;
 	UiUpgrade* uiUpgrade;
 	UiGameOver* uiGameOver;
+	ItemGenerator* itemGenerator;
 	
 	std::list<Zombie*> zombies;
 	ObjectPool<Zombie> zombiePool;
@@ -28,6 +31,9 @@ protected:
 
 	std::list<Item*> items;
 	ObjectPool<Item> itemPool;
+
+	std::list<Blood*> bloods;
+	ObjectPool<Blood> bloodPool;
 
 	sf::Sprite cursor;
 
@@ -50,7 +56,7 @@ public:
 
     void SpawnZombies(int count);
     Bullet* TakeBullet();
-    void SpawnItem();
+    void SpawnItem(Item::Types type, int qt);
     void OnItemTake(Item* item);
 
 
@@ -58,6 +64,7 @@ public:
 
 	void OnZombieDie(Zombie* zombie);
 	void ReturnBullet(Bullet* bullet);
+	void ReturnBlood(Blood* blood);
 
 	void OnUpgrade(int up);
 };

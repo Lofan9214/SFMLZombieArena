@@ -45,6 +45,6 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void SetType(Types type);
+	void SetType(Types type, int v);
 };
 
