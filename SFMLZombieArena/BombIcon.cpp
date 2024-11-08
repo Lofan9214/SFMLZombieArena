@@ -53,7 +53,7 @@ void BombIcon::Reset()
 	auto& tex = TEXTURE_MGR.Get(textureId);
 	icon.setTexture(tex);
 	mask.setPrimitiveType(sf::PrimitiveType::TriangleFan);
-	mask.resize(11);
+	mask.resize(5);
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
 	float radius = Utils::Magnitude(iconsize * 0.5f);
 	mask[0].position = iconsize * 0.5f;
@@ -61,7 +61,7 @@ void BombIcon::Reset()
 	int vac = mask.getVertexCount();
 	for (int i = 1; i < vac; ++i)
 	{
-		float angle = ((10 - i) / 9.f * 2.f - 0.5f) * Utils::PI;
+		float angle = ((i-2) * 0.5f) * Utils::PI;
 		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
 		mask[i].position += iconsize * 0.5f;
 		mask[i].color = sf::Color({ 90,90,90,0 });
@@ -82,12 +82,23 @@ void BombIcon::Update(float dt)
 	int vac = mask.getVertexCount();
 	float ratio = Utils::Clamp01(timer / maxTime);
 
-	for (int i = vac - 1; i > 0; --i)
+	float angle = (-ratio * 2.f - 0.5f) * Utils::PI;
+	if ((vac - 2) > ratio * 3)
 	{
-		float angle = ((10 - i) / 9.f * 2.f * (1 - ratio) - 0.5f) * Utils::PI;
-		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
-		mask[i].position += iconsize * 0.5f;
+		mask.resize(vac - 1);
+		mask[0].position = iconsize * 0.5f;
+		for (int i = 1; i < vac-1; ++i)
+		{
+			float tangle = ((i - 2) * 0.5f) * Utils::PI;
+			mask[i].position = { radius * cosf(tangle),radius * sinf(tangle) };
+			mask[i].position += iconsize * 0.5f;
+		}
 	}
+	vac = mask.getVertexCount();
+
+	mask[vac - 1].position = { radius * cosf(angle),radius * sinf(angle) };
+	mask[vac - 1].position += iconsize * 0.5f;
+
 	texture.clear();
 
 	iconRenderState.blendMode = sf::BlendMode(sf::BlendMode::One, sf::BlendMode::Zero, sf::BlendMode::Add);
@@ -116,4 +127,5 @@ void BombIcon::SetTime(float time, float delay)
 {
 	timer = time;
 	maxTime = delay;
+	mask.resize(5);
 }
