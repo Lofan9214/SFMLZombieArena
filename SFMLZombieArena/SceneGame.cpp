@@ -134,7 +134,13 @@ void SceneGame::Exit()
 	ScoreBoard::Clear();
 	if (currentStatus != Status::GameOver)
 	{
-		ScoreBoard::SetWave(wutheringWave - 1);
+		int currentwave = wutheringWave;
+		if (currentStatus == Status::InGame)
+		{
+			--currentwave;
+		}
+			
+		ScoreBoard::SetWave(wutheringWave);
 		for (int i = 0; i < (int)Upgrade::Count;++i)
 		{
 			Upgrade up = (Upgrade)i;

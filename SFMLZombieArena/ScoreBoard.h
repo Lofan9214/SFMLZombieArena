@@ -22,7 +22,7 @@ public:
 	static void SetHighScore(int hs) { highscore = hs; }
 	static int GetHighScore() { return highscore; }
 
-	static void SetWave(int wv) { wave = wv<0?0:wv; }
+	static void SetWave(int wv) { wave = wv; }
 	static int GetWave() { return wave; }
 
 	static void SetUpgrade(Upgrade idx, float v) { upgrade[(int)idx] = v; }
