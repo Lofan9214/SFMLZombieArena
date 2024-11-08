@@ -53,7 +53,7 @@ void BombIcon::Reset()
 	auto& tex = TEXTURE_MGR.Get(textureId);
 	icon.setTexture(tex);
 	mask.setPrimitiveType(sf::PrimitiveType::TriangleFan);
-	mask.resize(11);
+	mask.resize(5);
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
 	float radius = (iconsize.x + iconsize.y) * 2.f;
 	mask[0].position = iconsize * 0.5f;
@@ -61,7 +61,7 @@ void BombIcon::Reset()
 	int vac = mask.getVertexCount();
 	for (int i = 1; i < vac; ++i)
 	{
-		float angle = ((10 - i) / 9.f * 2.f - 0.5f) * Utils::PI;
+		float angle = ((4 - i) / 3.f * 2.f - 0.5f) * Utils::PI;
 		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
 		mask[i].position += iconsize * 0.5f;
 		mask[i].color = sf::Color({ 90,90,90,0 });
@@ -84,7 +84,7 @@ void BombIcon::Update(float dt)
 
 	for (int i =  1; i < vac; ++i)
 	{
-		float angle = ((10 - i) / 9.f * 2.f * (1 - ratio) - 0.5f) * Utils::PI;
+		float angle = ((4 - i) / 3.f * 2.f * (1 - ratio) - 0.5f) * Utils::PI;
 		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
 		mask[i].position += iconsize * 0.5f;
 	}
