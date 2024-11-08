@@ -53,7 +53,7 @@ void BombIcon::Reset()
 	auto& tex = TEXTURE_MGR.Get(textureId);
 	icon.setTexture(tex);
 	mask.setPrimitiveType(sf::PrimitiveType::TriangleFan);
-	mask.resize(5);
+	mask.resize(11);
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
 	float radius = Utils::Magnitude(iconsize * 0.5f);
 	mask[0].position = iconsize * 0.5f;

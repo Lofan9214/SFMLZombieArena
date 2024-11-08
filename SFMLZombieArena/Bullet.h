@@ -11,6 +11,8 @@ protected:
 	float speed = 0.f;
 	int damage = 0;
 
+	sf::FloatRect bounds;
+
 	SceneGame* sceneGame;
 
 	DebugBox debugBox;
@@ -36,6 +38,8 @@ public:
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void SetBounds(const sf::FloatRect& rect);
 
 	void Fire(const sf::Vector2f& pos, const sf::Vector2f& dir, float s, int d);
 };

@@ -85,6 +85,11 @@ void Bullet::Draw(sf::RenderWindow& window)
 	debugBox.Draw(window);
 }
 
+void Bullet::SetBounds(const sf::FloatRect& rect)
+{
+	bounds = rect;
+}
+
 
 void Bullet::FixedUpdate(float dt)
 {
@@ -101,13 +106,17 @@ void Bullet::FixedUpdate(float dt)
 		sf::FloatRect bounds = GetGlobalBounds();
 		sf::FloatRect zombieBounds = zombie->GetGlobalBounds();
 
-		if (bounds.intersects(zombieBounds)&&Utils::CheckCollision(GetHitBox(), zombie->GetHitBox()))
+		if (bounds.intersects(zombieBounds) && Utils::CheckCollision(GetHitBox(), zombie->GetHitBox()))
 		{
 			debugBox.SetOutlineColor(sf::Color::Red);
 			zombie->OnDamage(damage);
 			sceneGame->ReturnBullet(this);
 			break;
 		}
+	}
+	if (!bounds.contains(position))
+	{
+		sceneGame->ReturnBullet(this);
 	}
 }
 

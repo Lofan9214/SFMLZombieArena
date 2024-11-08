@@ -274,6 +274,7 @@ Bullet* SceneGame::TakeBullet()
 	Bullet* bullet = bulletPool.Take();
 	bullets.push_back(bullet);
 	AddGo(bullet);
+	bullet->SetBounds(tilemap->GetMovableBounds());
 	return bullet;
 }
 
