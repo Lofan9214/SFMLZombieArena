@@ -325,3 +325,17 @@ void Player::SetStat(Upgrade upgrade, float value)
 		break;
 	}
 }
+
+void Player::SetAllAmmo(int tammo)
+{
+	if (tammo < clip)
+	{
+		ammo = tammo;
+		totalAmmo = 0;
+	}
+	else
+	{
+		ammo = clip;
+		totalAmmo = tammo - clip;
+	}
+}

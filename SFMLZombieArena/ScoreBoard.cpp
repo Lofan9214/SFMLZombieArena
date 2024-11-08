@@ -8,6 +8,8 @@ int ScoreBoard::highscore;
 int ScoreBoard::wave;
 float ScoreBoard::upgrade[6];
 float ScoreBoard::itemtime[2];
+int ScoreBoard::allammo;
+int ScoreBoard::score;
 
 void ScoreBoard::Write()
 {
@@ -27,6 +29,8 @@ void ScoreBoard::Write()
 	{
 		outFile << itemtime[i] << std::endl;
 	}
+	outFile << score << std::endl;
+	outFile << allammo << std::endl;
 
 	outFile.close();
 }
@@ -51,6 +55,10 @@ void ScoreBoard::Read()
 	{
 		inFile >> itemtime[i];
 	}
+
+	inFile >> score;
+	inFile >> allammo;
+
 	inFile.close();
 }
 
@@ -58,6 +66,7 @@ void ScoreBoard::Clear()
 {
 	highscore = 0;
 	wave = 0;
+	allammo = 0;
 	for (int i = 0;i < sizeof(upgrade) / sizeof(upgrade[0]);++i)
 	{
 		upgrade[i] = 0;

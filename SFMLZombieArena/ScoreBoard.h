@@ -11,7 +11,8 @@ protected:
 	static int wave;
 	static float upgrade[6];
 	static float itemtime[2];
-
+	static int score;
+	static int allammo;
 
 public:
 	static void Write();
@@ -45,5 +46,11 @@ public:
 			return 0.f;
 		}
 	}
+	static void SetScore(int sc) { score = sc; }
+	static int GetScore() { return score; }
+	static void SetAllAmmo(int ammo) { allammo = ammo; }
+	static int GetAllAmmo() { return allammo; }
+
+	
 };
 

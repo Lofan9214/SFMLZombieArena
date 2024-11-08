@@ -72,25 +72,25 @@ void SceneGame::Enter()
 	{
 		return;
 	}
-
 	for (int i = 0; i < (int)Upgrade::Count;++i)
 	{
 		Upgrade up = (Upgrade)i;
 
 		float v = ScoreBoard::GetUpgrade(up);
-		if (v != 0.f)
+
+		if (i < (int)Upgrade::HealthPickups)
 		{
-			if (i < (int)Upgrade::HealthPickups)
-			{
-				player->SetStat(up, v);
-			}
-			else
-			{
-				itemGenerator->SetItemDelay(up, v);
-				itemGenerator->SetItemQt(up, ScoreBoard::GetUpgradeQt(up));
-			}
+			player->SetStat(up, v);
+		}
+		else
+		{
+			itemGenerator->SetItemDelay(up, v);
+			itemGenerator->SetItemQt(up, ScoreBoard::GetUpgradeQt(up));
 		}
 	}
+
+	player->SetAllAmmo(ScoreBoard::GetAllAmmo());
+	score = ScoreBoard::GetScore();
 }
 
 void SceneGame::Exit()
@@ -148,6 +148,12 @@ void SceneGame::Exit()
 				ScoreBoard::SetUpgradeQt(up, itemGenerator->GetItemQt(up));
 			}
 		}
+		
+		ScoreBoard::SetAllAmmo(player->GetAllAmmo());
+	}
+	else
+	{
+		ScoreBoard::SetScore(0);
 	}
 	ScoreBoard::SetHighScore(highScore);
 
@@ -230,6 +236,7 @@ void SceneGame::SetStatus(Status status)
 		uiGameMessage->SetStat(true);
 		break;
 	case SceneGame::Status::Upgrade:
+		ScoreBoard::SetScore(score);
 		if (score > highScore)
 		{
 			highScore = score;
@@ -372,7 +379,7 @@ void SceneGame::OnItemTake(Item* item)
 void SceneGame::OnZombieDie(Zombie* zombie)
 {
 	Blood* blood;
-	if (bloods.size() > 10)
+	while (bloods.size() > 10)
 	{
 		blood = bloods.front();
 		ReturnBlood(blood);

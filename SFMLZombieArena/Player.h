@@ -78,12 +78,14 @@ public:
 	void OnDamage(int d);
 
 	int GetTotalAmmo() { return totalAmmo; }
+	int GetAllAmmo() { return ammo + totalAmmo; }
 	int GetAmmo() { return ammo; }
 	int GetHp() { return hp; }
 	int GetMaxHp() { return maxHp; }
 	void UpgradeStat(Upgrade upgrade);
 	float GetStat(Upgrade upgrade);
-	void SetStat(Upgrade upgrade,float value);
+	void SetStat(Upgrade upgrade, float value);
+	void SetAllAmmo(int tammo);
 
 	void SetBombIcon(BombIcon* bombicon) { bombIcon = bombicon; }
 };
