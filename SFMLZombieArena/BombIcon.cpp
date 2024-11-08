@@ -55,7 +55,7 @@ void BombIcon::Reset()
 	mask.setPrimitiveType(sf::PrimitiveType::TriangleFan);
 	mask.resize(11);
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
-	float radius = Utils::Magnitude(iconsize * 0.5f);
+	float radius = (iconsize.x + iconsize.y) * 2.f;
 	mask[0].position = iconsize * 0.5f;
 	mask[0].color = sf::Color({ 90,90,90,0 });
 	int vac = mask.getVertexCount();
@@ -78,20 +78,19 @@ void BombIcon::LateUpdate(float dt)
 void BombIcon::Update(float dt)
 {
 	sf::Vector2f iconsize = icon.getLocalBounds().getSize();
-	float radius = Utils::Magnitude(iconsize * 0.5f);
+	float radius = (iconsize.x + iconsize.y) * 2.f;
 	int vac = mask.getVertexCount();
 	float ratio = Utils::Clamp01(timer / maxTime);
 
-	for (int i = vac - 1; i > 0; --i)
+	for (int i =  1; i < vac; ++i)
 	{
 		float angle = ((10 - i) / 9.f * 2.f * (1 - ratio) - 0.5f) * Utils::PI;
 		mask[i].position = { radius * cosf(angle),radius * sinf(angle) };
 		mask[i].position += iconsize * 0.5f;
 	}
-	texture.clear();
-
-	iconRenderState.blendMode = sf::BlendMode(sf::BlendMode::One, sf::BlendMode::Zero, sf::BlendMode::Add);
-	texture.draw(icon, iconRenderState);
+	texture.clear(sf::Color(0,0,0,0));
+	
+	texture.draw(icon);
 	if (ratio < 1.f)
 	{
 		maskRenderState.blendMode = sf::BlendMode(sf::BlendMode::One, sf::BlendMode::One, sf::BlendMode::ReverseSubtract);

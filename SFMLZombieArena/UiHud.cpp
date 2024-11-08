@@ -96,8 +96,8 @@ void UiHud::Reset()
 	textHiScore.setPosition(size.x - 25.f, topY);
 
 	iconAmmoIcon.setPosition(25.f, bottomY);
-	gaugeHp.setPosition(300.f, bottomY);
-	bombicon.SetPosition({ 750.f, bottomY });
+	bombicon.SetPosition({ 300.f, bottomY });
+	gaugeHp.setPosition(380.f, bottomY);
 
 	textAmmo.setPosition(100.f, bottomY);
 	textWave.setPosition(size.x - 400.f, bottomY);
