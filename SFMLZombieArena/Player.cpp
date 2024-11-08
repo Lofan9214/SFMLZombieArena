@@ -285,3 +285,43 @@ void Player::UpgradeStat(Upgrade upgrade)
 		break;
 	}
 }
+
+float Player::GetStat(Upgrade upgrade)
+{
+	switch (upgrade)
+	{
+	case Upgrade::RateOfFire:
+		return shootDelay;
+		break;
+	case Upgrade::ClipSize:
+		return clip;
+		break;
+	case Upgrade::MaxHealth:
+		return maxHp;
+		break;
+	case Upgrade::RunSpeed:
+		return speed;
+		break;
+	}
+	return 0.f;
+}
+
+void Player::SetStat(Upgrade upgrade, float value)
+{
+	switch (upgrade)
+	{
+	case Upgrade::RateOfFire:
+		shootDelay = value;
+		break;
+	case Upgrade::ClipSize:
+		clip = value;
+		break;
+	case Upgrade::MaxHealth:
+		maxHp = value;
+		hp = maxHp;
+		break;
+	case Upgrade::RunSpeed:
+		speed = value;
+		break;
+	}
+}

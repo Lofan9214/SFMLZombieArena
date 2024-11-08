@@ -172,6 +172,7 @@
     <ClCompile Include="ItemGenerator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UiGameMessage.cpp" />
     <ClCompile Include="UiHud.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="ItemGenerator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="UiGameMessage.h" />
     <ClInclude Include="UiHud.h" />

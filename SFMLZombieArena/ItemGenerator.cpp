@@ -108,3 +108,57 @@ void ItemGenerator::UpgradeItem(Upgrade type)
 		break;
 	}
 }
+
+float ItemGenerator::GetItemDelay(Upgrade type)
+{
+	switch (type)
+	{
+	case Upgrade::HealthPickups:
+		return healthDelay;
+		break;
+	case Upgrade::AmmoPickups:
+		return ammoDelay;
+		break;
+	}
+	return 0.0f;
+}
+
+int ItemGenerator::GetItemQt(Upgrade type)
+{
+	switch (type)
+	{
+	case Upgrade::HealthPickups:
+		return health;
+		break;
+	case Upgrade::AmmoPickups:
+		return ammo;
+		break;
+	}
+	return 0;
+}
+
+void ItemGenerator::SetItemDelay(Upgrade type, float value)
+{
+	switch (type)
+	{
+	case Upgrade::HealthPickups:
+		healthDelay = value;
+		break;
+	case Upgrade::AmmoPickups:
+		ammoDelay = value;
+		break;
+	}
+}
+
+void ItemGenerator::SetItemQt(Upgrade type, float value)
+{
+	switch (type)
+	{
+	case Upgrade::HealthPickups:
+		health = value;
+		break;
+	case Upgrade::AmmoPickups:
+		ammo = value;
+		break;
+	}
+}

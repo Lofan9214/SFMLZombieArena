@@ -11,6 +11,7 @@
 #include "UiHud.h"
 #include "UiUpgrade.h"
 #include "UiGameMessage.h"
+#include "ScoreBoard.h"
 
 SceneGame::SceneGame()
 	:Scene(SceneIds::Game)
@@ -57,12 +58,39 @@ void SceneGame::Enter()
 
 	itemGenerator->SetActive(false);
 
+	ScoreBoard::Read();
 	score = 0;
-	wutheringWave = 0;
+	wutheringWave = ScoreBoard::GetWave();
+	highScore = ScoreBoard::GetHighScore();
+
 	SetStatus(Status::Awake);
 	Scene::Enter();
 	player->SetMovableBounds(tilemap->GetMovableBounds());
 	player->SetBombIcon(uiHud->GetBombIcon());
+
+	if (wutheringWave == 0)
+	{
+		return;
+	}
+
+	for (int i = 0; i < (int)Upgrade::Count;++i)
+	{
+		Upgrade up = (Upgrade)i;
+
+		float v = ScoreBoard::GetUpgrade(up);
+		if (v != 0.f)
+		{
+			if (i < (int)Upgrade::HealthPickups)
+			{
+				player->SetStat(up, v);
+			}
+			else
+			{
+				itemGenerator->SetItemDelay(up, v);
+				itemGenerator->SetItemQt(up, ScoreBoard::GetUpgradeQt(up));
+			}
+		}
+	}
 }
 
 void SceneGame::Exit()
@@ -102,6 +130,28 @@ void SceneGame::Exit()
 		bombPool.Return(bomb);
 	}
 	bombs.clear();
+
+	ScoreBoard::Clear();
+	if (currentStatus != Status::GameOver)
+	{
+		ScoreBoard::SetWave(wutheringWave - 1);
+		for (int i = 0; i < (int)Upgrade::Count;++i)
+		{
+			Upgrade up = (Upgrade)i;
+			if (i < (int)Upgrade::HealthPickups)
+			{
+				ScoreBoard::SetUpgrade(up, player->GetStat(up));
+			}
+			else
+			{
+				ScoreBoard::SetUpgrade(up, itemGenerator->GetItemDelay(up));
+				ScoreBoard::SetUpgradeQt(up, itemGenerator->GetItemQt(up));
+			}
+		}
+	}
+	ScoreBoard::SetHighScore(highScore);
+
+	ScoreBoard::Write();
 
 	Scene::Exit();
 }
@@ -180,6 +230,10 @@ void SceneGame::SetStatus(Status status)
 		uiGameMessage->SetStat(true);
 		break;
 	case SceneGame::Status::Upgrade:
+		if (score > highScore)
+		{
+			highScore = score;
+		}
 		uiUpgrade->SetActive(true);
 		break;
 	case SceneGame::Status::Pause:
@@ -330,10 +384,6 @@ void SceneGame::OnZombieDie(Zombie* zombie)
 	blood->SetPosition(zombie->GetPosition());
 
 	score += 10;
-	if (score > highScore)
-	{
-		highScore = score;
-	}
 
 	RemoveGo(zombie);
 	zombiePool.Return(zombie);

@@ -35,4 +35,9 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void UpgradeItem(Upgrade type);
+
+	float GetItemDelay(Upgrade type);
+	int GetItemQt(Upgrade type);
+	void SetItemDelay(Upgrade type, float value);
+	void SetItemQt(Upgrade type, float value);
 };

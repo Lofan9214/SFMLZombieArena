@@ -82,6 +82,8 @@ public:
 	int GetHp() { return hp; }
 	int GetMaxHp() { return maxHp; }
 	void UpgradeStat(Upgrade upgrade);
+	float GetStat(Upgrade upgrade);
+	void SetStat(Upgrade upgrade,float value);
 
 	void SetBombIcon(BombIcon* bombicon) { bombIcon = bombicon; }
 };
