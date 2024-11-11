@@ -28,8 +28,8 @@ void SceneGame::Init()
 	uiGameMessage = AddGo(new UiGameMessage("UiGameMessage"));
 	SOUNDBUFFER_MGR.Load("sound/bgm_suspect.ogg", true);
 	SOUND_MGR.PlayBgm("sound/bgm_suspect.ogg");
-	SOUND_MGR.SetBgmVolume(20.f);
-	SOUND_MGR.SetSfxVolume(20.f);
+	SOUND_MGR.SetBgmVolume(0.f);
+	SOUND_MGR.SetSfxVolume(0.f);
 
 	Scene::Init();
 }
@@ -58,7 +58,7 @@ void SceneGame::Enter()
 
 	itemGenerator->SetActive(false);
 
-	
+
 
 	SetStatus(Status::Awake);
 	Scene::Enter();
@@ -106,8 +106,6 @@ void SceneGame::Exit()
 		bombPool.Return(bomb);
 	}
 	bombs.clear();
-
-	SaveData();
 
 	Scene::Exit();
 }
@@ -350,15 +348,20 @@ void SceneGame::OnItemTake(Item* item)
 void SceneGame::OnZombieDie(Zombie* zombie)
 {
 	Blood* blood;
-	while (bloods.size() > 10)
+	if (bloods.size() > 10)
 	{
 		blood = bloods.front();
-		ReturnBlood(blood);
+		bloods.pop_front();
+		blood->Reset();
+		bloods.push_back(blood);
+	}
+	else
+	{
+		blood = bloodPool.Take();
+		bloods.push_back(blood);
+		AddGo(blood);
 	}
 
-	blood = bloodPool.Take();
-	bloods.push_back(blood);
-	AddGo(blood);
 	blood->SetPosition(zombie->GetPosition());
 
 	score += 10;
@@ -410,41 +413,33 @@ void SceneGame::OnUpgrade(Upgrade up)
 		itemGenerator->UpgradeItem(up);
 		break;
 	}
+
+	SaveData();
+
 	SetStatus(Status::InGame);
 }
 
 void SceneGame::SaveData()
 {
 	ScoreBoard::Clear();
-	if (currentStatus != Status::GameOver)
-	{
-		int currentwave = wutheringWave;
-		if (currentStatus == Status::InGame)
-		{
-			--currentwave;
-		}
 
-		ScoreBoard::SetWave(wutheringWave);
-		for (int i = 0; i < (int)Upgrade::Count;++i)
-		{
-			Upgrade up = (Upgrade)i;
-			if (i < (int)Upgrade::HealthPickups)
-			{
-				ScoreBoard::SetUpgrade(up, player->GetStat(up));
-			}
-			else
-			{
-				ScoreBoard::SetUpgrade(up, itemGenerator->GetItemDelay(up));
-				ScoreBoard::SetUpgradeQt(up, itemGenerator->GetItemQt(up));
-			}
-		}
-
-		ScoreBoard::SetAllAmmo(player->GetAllAmmo());
-	}
-	else
+	ScoreBoard::SetWave(wutheringWave);
+	for (int i = 0; i < (int)Upgrade::Count;++i)
 	{
-		ScoreBoard::SetScore(0);
+		Upgrade up = (Upgrade)i;
+		if (i < (int)Upgrade::HealthPickups)
+		{
+			ScoreBoard::SetUpgrade(up, player->GetStat(up));
+		}
+		else
+		{
+			ScoreBoard::SetUpgrade(up, itemGenerator->GetItemDelay(up));
+			ScoreBoard::SetUpgradeQt(up, itemGenerator->GetItemQt(up));
+		}
 	}
+
+	ScoreBoard::SetAllAmmo(player->GetAllAmmo());
+
 	ScoreBoard::SetHighScore(highScore);
 
 	ScoreBoard::Write();
