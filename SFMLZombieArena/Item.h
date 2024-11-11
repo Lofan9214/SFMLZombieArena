@@ -2,12 +2,17 @@
 
 class Player;
 class SceneGame;
-enum class Upgrade;
 
 class Item : public GameObject
 {
+public:
+	enum class Types
+	{
+		Hp,
+		Ammo,
+	};
 protected:
-	Upgrade type;
+	Types type;
 	sf::Sprite body;
 	sf::String textureId;
 
@@ -39,6 +44,6 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void SetType(Upgrade type, int v);
+	void SetType(Types type, int v);
 };
 

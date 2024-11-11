@@ -58,39 +58,15 @@ void SceneGame::Enter()
 
 	itemGenerator->SetActive(false);
 
-	ScoreBoard::Read();
-	score = 0;
-	wutheringWave = ScoreBoard::GetWave();
-	highScore = ScoreBoard::GetHighScore();
+	
 
 	SetStatus(Status::Awake);
 	Scene::Enter();
 	player->SetMovableBounds(tilemap->GetMovableBounds());
 	player->SetBombIcon(uiHud->GetBombIcon());
 
-	if (wutheringWave == 0)
-	{
-		return;
-	}
-	for (int i = 0; i < (int)Upgrade::Count;++i)
-	{
-		Upgrade up = (Upgrade)i;
+	LoadData();
 
-		float v = ScoreBoard::GetUpgrade(up);
-
-		if (i < (int)Upgrade::HealthPickups)
-		{
-			player->SetStat(up, v);
-		}
-		else
-		{
-			itemGenerator->SetItemDelay(up, v);
-			itemGenerator->SetItemQt(up, ScoreBoard::GetUpgradeQt(up));
-		}
-	}
-
-	player->SetAllAmmo(ScoreBoard::GetAllAmmo());
-	score = ScoreBoard::GetScore();
 }
 
 void SceneGame::Exit()
@@ -131,39 +107,7 @@ void SceneGame::Exit()
 	}
 	bombs.clear();
 
-	ScoreBoard::Clear();
-	if (currentStatus != Status::GameOver)
-	{
-		int currentwave = wutheringWave;
-		if (currentStatus == Status::InGame)
-		{
-			--currentwave;
-		}
-			
-		ScoreBoard::SetWave(wutheringWave);
-		for (int i = 0; i < (int)Upgrade::Count;++i)
-		{
-			Upgrade up = (Upgrade)i;
-			if (i < (int)Upgrade::HealthPickups)
-			{
-				ScoreBoard::SetUpgrade(up, player->GetStat(up));
-			}
-			else
-			{
-				ScoreBoard::SetUpgrade(up, itemGenerator->GetItemDelay(up));
-				ScoreBoard::SetUpgradeQt(up, itemGenerator->GetItemQt(up));
-			}
-		}
-		
-		ScoreBoard::SetAllAmmo(player->GetAllAmmo());
-	}
-	else
-	{
-		ScoreBoard::SetScore(0);
-	}
-	ScoreBoard::SetHighScore(highScore);
-
-	ScoreBoard::Write();
+	SaveData();
 
 	Scene::Exit();
 }
@@ -373,7 +317,12 @@ void SceneGame::SpawnItem(Upgrade type, int qt)
 {
 	Item* item = itemPool.Take();
 	items.push_back(item);
-	item->SetType(type, qt);
+	Item::Types itemtype = Item::Types::Hp;
+	if (type == Upgrade::AmmoPickups)
+	{
+		itemtype = Item::Types::Ammo;
+	}
+	item->SetType(itemtype, qt);
 
 	sf::FloatRect bounds = tilemap->GetMovableBounds();
 	sf::Vector2f pos;
@@ -462,5 +411,75 @@ void SceneGame::OnUpgrade(Upgrade up)
 		break;
 	}
 	SetStatus(Status::InGame);
+}
+
+void SceneGame::SaveData()
+{
+	ScoreBoard::Clear();
+	if (currentStatus != Status::GameOver)
+	{
+		int currentwave = wutheringWave;
+		if (currentStatus == Status::InGame)
+		{
+			--currentwave;
+		}
+
+		ScoreBoard::SetWave(wutheringWave);
+		for (int i = 0; i < (int)Upgrade::Count;++i)
+		{
+			Upgrade up = (Upgrade)i;
+			if (i < (int)Upgrade::HealthPickups)
+			{
+				ScoreBoard::SetUpgrade(up, player->GetStat(up));
+			}
+			else
+			{
+				ScoreBoard::SetUpgrade(up, itemGenerator->GetItemDelay(up));
+				ScoreBoard::SetUpgradeQt(up, itemGenerator->GetItemQt(up));
+			}
+		}
+
+		ScoreBoard::SetAllAmmo(player->GetAllAmmo());
+	}
+	else
+	{
+		ScoreBoard::SetScore(0);
+	}
+	ScoreBoard::SetHighScore(highScore);
+
+	ScoreBoard::Write();
+}
+
+void SceneGame::LoadData()
+{
+	ScoreBoard::Read();
+	score = 0;
+	wutheringWave = ScoreBoard::GetWave();
+	highScore = ScoreBoard::GetHighScore();
+
+
+	if (wutheringWave == 0)
+	{
+		return;
+	}
+	for (int i = 0; i < (int)Upgrade::Count;++i)
+	{
+		Upgrade up = (Upgrade)i;
+
+		float v = ScoreBoard::GetUpgrade(up);
+
+		if (i < (int)Upgrade::HealthPickups)
+		{
+			player->SetStat(up, v);
+		}
+		else
+		{
+			itemGenerator->SetItemDelay(up, v);
+			itemGenerator->SetItemQt(up, ScoreBoard::GetUpgradeQt(up));
+		}
+	}
+
+	player->SetAllAmmo(ScoreBoard::GetAllAmmo());
+	score = ScoreBoard::GetScore();
 }
 

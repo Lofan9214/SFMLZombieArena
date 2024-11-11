@@ -172,10 +172,11 @@
     <ClCompile Include="Framework\Variables.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemGenerator.cpp" />
+    <ClCompile Include="ItemTable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
-    <ClCompile Include="Framework\StringTable.cpp" />
+    <ClCompile Include="StringTable.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="UiGameMessage.cpp" />
     <ClCompile Include="UiHud.cpp" />
@@ -212,10 +213,11 @@
     <ClInclude Include="Framework\Variables.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemGenerator.h" />
+    <ClInclude Include="ItemTable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="ScoreBoard.h" />
-    <ClInclude Include="Framework\StringTable.h" />
+    <ClInclude Include="StringTable.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="UiGameMessage.h" />
     <ClInclude Include="UiHud.h" />

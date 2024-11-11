@@ -6,6 +6,7 @@ public:
 	{
 		String,
 		Zombie,
+		Item,
 		Count,
 	};
 

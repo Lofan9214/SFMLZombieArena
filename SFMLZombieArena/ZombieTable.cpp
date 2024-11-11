@@ -17,7 +17,7 @@ bool ZombieTable::Load()
 
 		if (table.find(id) != table.end())
 		{
-
+			std::cout << "스트링 테이블 키 중복!" << std::endl;
 			return false;
 		}
 
@@ -32,6 +32,7 @@ bool ZombieTable::Load()
 
 void ZombieTable::Release()
 {
+	table.clear();
 }
 
 const DataZombie& ZombieTable::Get(Zombie::Types id)

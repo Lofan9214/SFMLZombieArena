@@ -16,7 +16,6 @@ class ZombieTable :
 public:
 	static DataZombie Undefined;
 
-
 protected:
 	std::unordered_map<Zombie::Types, DataZombie> table;
 

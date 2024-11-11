@@ -101,5 +101,8 @@ public:
 	void ReturnBlood(Blood* blood);
 	
 	void OnUpgrade(Upgrade up);
+
+	void SaveData();
+	void LoadData();
 };
 

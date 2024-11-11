@@ -3,9 +3,10 @@
 #include "Player.h"
 #include "SceneGame.h"
 #include "UiUpgrade.h"
+#include "ItemTable.h"
 
 Item::Item(const std::string& name)
-	: GameObject(name),type(Upgrade::HealthPickups)
+	: GameObject(name),type(Types::Hp)
 {
 }
 
@@ -87,10 +88,10 @@ void Item::FixedUpdate(float dt)
 	{
 		switch (type)
 		{
-		case Upgrade::HealthPickups:
+		case Types::Hp:
 			player->OnHealth(value);
 			break;
-		case Upgrade::AmmoPickups:
+		case Types::Ammo:
 			player->OnAmmo(value);
 			break;
 		default:
@@ -107,24 +108,14 @@ void Item::Draw(sf::RenderWindow& window)
 	debugBox.Draw(window);
 }
 
-void Item::SetType(Upgrade type, int v)
+void Item::SetType(Types type, int v)
 {
 	this->type = type;
-	switch (this->type)
-	{
-	case Upgrade::HealthPickups:
-		textureId = "graphics/health_pickup.png";
-		value = v;
 
-		break;
-	case Upgrade::AmmoPickups:
-		textureId = "graphics/ammo_pickup.png";
-		value = v;
+	const auto& data = ITEM_TABLE->Get(this->type);
+	textureId = data.textureId;
+	value = data.value;
 
-		break;
-	default:
-		break;
-	}
 	body.setTexture(TEXTURE_MGR.Get(textureId), true);
 	SetOrigin(originPreset);
 }
