@@ -181,6 +181,7 @@
     <ClCompile Include="UiHud.cpp" />
     <ClCompile Include="UiUpgrade.cpp" />
     <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="ZombieTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blood.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="UiHud.h" />
     <ClInclude Include="UiUpgrade.h" />
     <ClInclude Include="Zombie.h" />
+    <ClInclude Include="ZombieTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

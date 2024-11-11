@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DataTableMgr.h"
+#include "ZombieTable.h"
 
 DataTableMgr::~DataTableMgr()
 {
@@ -10,6 +11,7 @@ void DataTableMgr::Init()
 {
 	Release();
 	tables.insert({ DataTable::Types::String, new StringTable() });
+	tables.insert({ DataTable::Types::Zombie, new ZombieTable() });
 
 	for (auto t : tables)
 	{

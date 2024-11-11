@@ -5,9 +5,9 @@ public:
 	enum class Types
 	{
 		String,
-
+		Zombie,
+		Count,
 	};
-	static const int TotalTypes = 1;
 
 protected:
 	Types type;

@@ -2,6 +2,7 @@
 #include "Zombie.h"
 #include "SceneGame.h"
 #include "Player.h"
+#include "ZombieTable.h"
 
 Zombie::Zombie(const std::string& name)
 	: GameObject(name)
@@ -134,37 +135,13 @@ void Zombie::FixedUpdate(float dt)
 
 void Zombie::SetType(Types type)
 {
-	this->type = type;
-	switch (this->type)
-	{
-	case Types::Bloater:
-		textureId = "graphics/bloater.png";
-		speed = 100.f;
-		maxHp = 50;
-		damage = 5;
-
-		break;
-	case Types::Chaser:
-		textureId = "graphics/chaser.png";
-		speed = 75.f;
-		maxHp = 20;
-		damage = 5;
-
-		break;
-	case Types::Crawler:
-		textureId = "graphics/crawler.png";
-		speed = 50.f;
-		maxHp = 10;
-		damage = 5;
-
-		break;
-	default:
-		break;
-	}
+	const auto& data = ZOMBIE_TABLE->Get(type);
+	textureId = data.textureId;
+	maxHp = data.maxHp;
+	speed = data.speed;
+	hp = maxHp;
 	body.setTexture(TEXTURE_MGR.Get(textureId), true);
 	SetOrigin(originPreset);
-
-	hp = maxHp;
 }
 
 void Zombie::OnDamage(int d)

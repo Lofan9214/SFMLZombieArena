@@ -32,3 +32,4 @@ inline T* DataTableMgr::Get(DataTable::Types type)
 
 #define DATATABLE_MGR (DataTableMgr::Instance())
 #define STRING_TABLE (DATATABLE_MGR.Get<StringTable>(DataTable::Types::String))
+#define ZOMBIE_TABLE (DATATABLE_MGR.Get<ZombieTable>(DataTable::Types::Zombie))
