@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UiGameMessage.h"
+#include "TextGo.h"
 
 UiGameMessage::UiGameMessage(const std::string& name)
 	: GameObject(name)
@@ -39,31 +40,38 @@ void UiGameMessage::Init()
 {
 	sortingLayer = SortingLayers::UI;
 	sortingOrder = 2;
+
+	textGameOver = new TextGo();
+	textGameStart = new TextGo();
 }
 
 void UiGameMessage::Release()
 {
+	delete textGameOver;
+	delete textGameStart;
 }
 
 void UiGameMessage::Reset()
 {
 	float textSize = 150.f;
-	sf::Font& font = FONT_MGR.Get("fonts/zombiecontrol.ttf");
+	sf::Font& font = FONT_MGR.Get("fonts/malgun.ttf");
 	sf::Vector2f pos = FRAMEWORK.GetWindowSizef() * 0.5f;
+	
+	textGameOver->Reset();
+	textGameOver->SetString("GameOverMessage");
+	textGameOver->SetFont(font);
+	textGameOver->SetCharSize(textSize);
+	textGameOver->SetFillColor(sf::Color::White);
+	textGameOver->SetOrigin(Origins::MC);
+	textGameOver->SetPosition(pos);
 
-	textGameOver.setString("PRESS ENTER\nTO CONTINUE");
-	textGameOver.setFont(font);
-	textGameOver.setCharacterSize(textSize);
-	textGameOver.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textGameOver, Origins::MC);
-	textGameOver.setPosition(pos);
-
-	textGameStart.setString("PRESS ENTER\nTO START");
-	textGameStart.setFont(font);
-	textGameStart.setCharacterSize(textSize);
-	textGameStart.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textGameStart, Origins::MC);
-	textGameStart.setPosition(pos);
+	textGameStart->Reset();
+	textGameStart->SetString("StartMessage");
+	textGameStart->SetFont(font);
+	textGameStart->SetCharSize(textSize);
+	textGameStart->SetFillColor(sf::Color::White);
+	textGameStart->SetOrigin(Origins::MC);
+	textGameStart->SetPosition(pos);
 }
 
 void UiGameMessage::LateUpdate(float dt)
@@ -82,11 +90,11 @@ void UiGameMessage::Draw(sf::RenderWindow& window)
 {
 	if (isGameOver)
 	{
-		window.draw(textGameOver);
+		textGameOver->Draw(window);
 	}
 	else
 	{
-		window.draw(textGameStart);
+		textGameStart->Draw(window);
 	}
 }
 

@@ -17,6 +17,7 @@ public:
 	void SetOrigin(const sf::Vector2f& newOrigin);
 
 	void SetFont(const std::string& fontid);
+	void SetFont(const sf::Font& font);
 
 	void Init() override;
 	void Release() override;
@@ -34,6 +35,7 @@ public:
 	sf::FloatRect GetGlobalBounds() const override;
 
 	void SetString(const std::string& str);
+	void SetString(const std::string& id, const std::string& str);
 	void SetFillColor(sf::Color color);
 	void SetCharSize(int size);
 

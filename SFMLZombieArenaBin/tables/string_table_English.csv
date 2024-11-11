@@ -1,10 +1,11 @@
 ID,English
 Hi,Hi~
-Score,Score
-HighScore,High Score
-StartMessage,PRESS ENTER\nTO START
-Wave,Wave
-Zombies,Zombies
+Score,Score: 
+HighScore,High Score: 
+StartMessage,"PRESS ENTER\nTO START"
+GameOverMessage,"PRESS ENTER\nTO RESTART"
+Wave,Wave: 
+Zombies,Zombies: 
 Upgrade1,1- INCREASED RATE OF FIRE
 Upgrade2,2- INCREASED CLIP SIZE(NEXT RELOAD)
 Upgrade3,3- INCREASED MAX HEALTH

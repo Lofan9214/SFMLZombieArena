@@ -1,11 +1,13 @@
 #pragma once
 
+class TextGo;
+
 class UiGameMessage : public GameObject
 {
 protected:
 
-	sf::Text textGameOver;
-	sf::Text textGameStart;
+	TextGo* textGameOver;
+	TextGo* textGameStart;
 
 	bool isGameOver;
 

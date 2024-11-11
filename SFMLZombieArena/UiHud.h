@@ -1,20 +1,23 @@
 #pragma once
 
 #include "BombIcon.h"
+#include "TextGo.h"
+
+class TextGo;
 
 class UiHud : public GameObject
 {
 protected:
 
-	sf::Text textScore;
-	sf::Text textHiScore;
+	TextGo textScore;
+	TextGo textHiScore;
 
 	sf::Sprite iconAmmoIcon;
 
-	sf::Text textAmmo;
+	TextGo textAmmo;
 	sf::RectangleShape gaugeHp;
-	sf::Text textWave;
-	sf::Text textZombieCount;
+	TextGo textWave;
+	TextGo textZombieCount;
 
 	BombIcon bombicon;
 

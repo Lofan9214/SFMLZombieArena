@@ -52,31 +52,31 @@ void UiHud::Reset()
 
 	float textSize = 50.f;
 
-	sf::Font& font = FONT_MGR.Get("fonts/zombiecontrol.ttf");
-	textScore.setFont(font);
-	textScore.setCharacterSize(textSize);
-	textScore.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textScore, Origins::TL);
+	sf::Font& font = FONT_MGR.Get("fonts/malgun.ttf");
+	textScore.SetFont(font);
+	textScore.SetCharSize(textSize);
+	textScore.SetFillColor(sf::Color::White);
+	textScore.SetOrigin(Origins::TL);
 
-	textHiScore.setFont(font);
-	textHiScore.setCharacterSize(textSize);
-	textHiScore.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textHiScore, Origins::TR);
+	textHiScore.SetFont(font);
+	textHiScore.SetCharSize(textSize);
+	textHiScore.SetFillColor(sf::Color::White);
+	textHiScore.SetOrigin(Origins::TR);
 
-	textAmmo.setFont(font);
-	textAmmo.setCharacterSize(textSize);
-	textAmmo.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textAmmo, Origins::BL);
+	textAmmo.SetFont(font);
+	textAmmo.SetCharSize(textSize);
+	textAmmo.SetFillColor(sf::Color::White);
+	textAmmo.SetOrigin(Origins::BL);
 
-	textWave.setFont(font);
-	textWave.setCharacterSize(textSize);
-	textWave.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textWave, Origins::BR);
+	textWave.SetFont(font);
+	textWave.SetCharSize(textSize);
+	textWave.SetFillColor(sf::Color::White);
+	textWave.SetOrigin(Origins::BR);
 
-	textZombieCount.setFont(font);
-	textZombieCount.setCharacterSize(textSize);
-	textZombieCount.setFillColor(sf::Color::White);
-	Utils::SetOrigin(textZombieCount, Origins::BR);
+	textZombieCount.SetFont(font);
+	textZombieCount.SetCharSize(textSize);
+	textZombieCount.SetFillColor(sf::Color::White);
+	textZombieCount.SetOrigin(Origins::BR);
 
 	gaugeHp.setFillColor(sf::Color::Red);
 	gaugeHp.setSize(gaugeHpMaxSize);
@@ -92,16 +92,16 @@ void UiHud::Reset()
 	sf::Vector2f size = FRAMEWORK.GetWindowSizef();
 	float bottomY = size.y - 25.f;
 
-	textScore.setPosition(25.f, topY);
-	textHiScore.setPosition(size.x - 25.f, topY);
+	textScore.SetPosition({ 25.f, topY });
+	textHiScore.SetPosition({ size.x - 25.f, topY });
 
 	iconAmmoIcon.setPosition(25.f, bottomY);
 	bombicon.SetPosition({ 300.f, bottomY });
 	gaugeHp.setPosition(380.f, bottomY);
 
-	textAmmo.setPosition(100.f, bottomY);
-	textWave.setPosition(size.x - 400.f, bottomY);
-	textZombieCount.setPosition(size.x - 25.f, bottomY);
+	textAmmo.SetPosition({ 100.f, bottomY });
+	textWave.SetPosition({ size.x - 400.f, bottomY });
+	textZombieCount.SetPosition({ size.x - 25.f, bottomY });
 	SetScore(0);
 	SetHighScore(0);
 	SetAmmo(0, 0);
@@ -125,33 +125,29 @@ void UiHud::FixedUpdate(float dt)
 
 void UiHud::Draw(sf::RenderWindow& window)
 {
-	window.draw(textScore);
-	window.draw(textHiScore);
-	window.draw(textWave);
+	textScore.Draw(window);
+	textHiScore.Draw(window);
+	textWave.Draw(window);
 	window.draw(iconAmmoIcon);
 	window.draw(gaugeHp);
-	window.draw(textAmmo);
-	window.draw(textZombieCount);
+	textAmmo.Draw(window);
+	textZombieCount.Draw(window);
 	bombicon.Draw(window);
 }
 
 void UiHud::SetScore(int s)
 {
-	textScore.setString("SCORE: " + std::to_string(s));
-	Utils::SetOrigin(textScore, Origins::TL);
+	textScore.SetString("Score", std::to_string(s));
 }
 
 void UiHud::SetHighScore(int s)
 {
-	textHiScore.setString("HI SCORE: " + std::to_string(s));
-	Utils::SetOrigin(textHiScore, Origins::TR);
-
+	textHiScore.SetString("HighScore", std::to_string(s));
 }
 
 void UiHud::SetAmmo(int current, int total)
 {
-	textAmmo.setString(std::to_string(current) + " / " + std::to_string(total));
-	Utils::SetOrigin(textAmmo, Origins::BL);
+	textAmmo.SetString("", std::to_string(current) + " / " + std::to_string(total));
 }
 
 void UiHud::SetHp(int hp, int max)
@@ -162,12 +158,10 @@ void UiHud::SetHp(int hp, int max)
 
 void UiHud::SetWave(int w)
 {
-	textWave.setString("WAVE: " + std::to_string(w));
-	Utils::SetOrigin(textWave, Origins::BR);
+	textWave.SetString("Wave", std::to_string(w));
 }
 
 void UiHud::SetZombieCount(int count)
 {
-	textZombieCount.setString("ZOMBIES: " + std::to_string(count));
-	Utils::SetOrigin(textZombieCount, Origins::BR);
+	textZombieCount.SetString("Zombies", std::to_string(count));
 }

@@ -1,10 +1,11 @@
 ID,Japanese
 Hi,こんにちは
-Score,スコア
-HighScore,ベストスコア
-StartMessage,Enterを押して\n開始します
-Wave,波
-Zombies,ゾンビ
+Score,スコア: 
+HighScore,ベストスコア: 
+StartMessage,"Enterを押して\n開始します"
+GameOverMessage,"Enterを押して\n再起動してください"
+Wave,波: 
+Zombies,ゾンビ: 
 Upgrade1,1- 発射速度の増加
 Upgrade2,2- クリップサイズの拡大
 Upgrade3,3- 最大体力の増加

@@ -9,23 +9,6 @@ bool StringTable::Load()
 	Release();
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 
-	//std::string strLang = "";
-	//switch (lang)
-	//{
-	//case Languages::Korean:
-	//	strLang = "Korean";
-	//	break;
-	//case Languages::English:
-	//	strLang = "English";
-	//	break;
-	//case Languages::Japanese:
-	//	strLang = "Japanese";
-	//	break;
-	//}
-	//
-	//filePath = "tables/string_table_" + strLang + ".csv";
-
-
 	for (int j = 0;j < (int)Languages::Count;++j)
 	{
 		std::string strLang = "";

@@ -23,6 +23,11 @@ void TextGo::SetFont(const std::string& fontid)
 {
 	fontId = fontid;
 	sf::Font& font = FONT_MGR.Get(fontId);
+	SetFont(font);
+}
+
+void TextGo::SetFont(const sf::Font& font)
+{
 	text.setFont(font);
 }
 
@@ -100,6 +105,28 @@ void TextGo::SetString(const std::string& str)
 	}
 }
 
+void TextGo::SetString(const std::string& id, const std::string& str)
+{
+	if (id != "")
+	{
+		stringId = id;
+
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+
+		text.setString(STRING_TABLE->Get(stringId) + converter.from_bytes(str));
+	}
+	else
+	{
+		stringId = id;
+		text.setString(str);
+	}
+
+	if (originPreset < Origins::Custom)
+	{
+		SetOrigin(originPreset);
+	}
+}
+
 void TextGo::SetFillColor(sf::Color color)
 {
 	text.setFillColor(color);
@@ -112,7 +139,7 @@ void TextGo::SetCharSize(int size)
 
 void TextGo::OnLocalize(Languages lang)
 {
-	text.setString(STRING_TABLE->Get(stringId,lang));
+	text.setString(STRING_TABLE->Get(stringId, lang));
 	if (originPreset < Origins::Custom)
 	{
 		SetOrigin(originPreset);
