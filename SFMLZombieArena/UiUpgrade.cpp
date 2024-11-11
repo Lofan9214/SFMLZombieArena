@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UiUpgrade.h"
 #include "SceneGame.h"
+#include "TextGo.h"
 
 UiUpgrade::UiUpgrade(const std::string& name)
 	: GameObject(name)
@@ -42,16 +43,24 @@ void UiUpgrade::Init()
 	sortingOrder = 1;
 
 	upgrades.resize((int)Upgrade::Count);
-	upgrades[0].setString("1-INCREASED RATE OF FIRE");
-	upgrades[1].setString("2-INCREASED CLIP SIZE(NEXT RELOAD)");
-	upgrades[2].setString("3-INCREASED MAX HEALTH");
-	upgrades[3].setString("4-INCREASED RUN SPEED");
-	upgrades[4].setString("5-MORE AND BETTER HEALTH PICKUPS");
-	upgrades[5].setString("6-MORE AND BETTER AMMO PICKUPS");
+	std::string fontid = "fonts/malgun.ttf";
+
+	for (int i = 0;i < (int)Upgrade::Count;++i)
+	{
+		upgrades[i].Init();
+		upgrades[i].SetFont(fontid);
+		upgrades[i].SetString("Upgrade" + std::to_string(i + 1));
+	}
 }
 
 void UiUpgrade::Release()
 {
+	int count = (int)Upgrade::Count;
+
+	for (int i = 0; i < count; ++i)
+	{
+		upgrades[i].Release();
+	}
 }
 
 void UiUpgrade::Reset()
@@ -62,15 +71,14 @@ void UiUpgrade::Reset()
 	background.setPosition({ 0.f, 0.f });
 
 	float textSize = 100.f;
-	sf::Font& font = FONT_MGR.Get("fonts/zombiecontrol.ttf");
 
 	int count = (int)Upgrade::Count;
 	for (int i = 0; i < count; ++i)
 	{
-		upgrades[i].setFont(font);
-		upgrades[i].setCharacterSize(textSize);
-		Utils::SetOrigin(upgrades[i], Origins::ML);
-		upgrades[i].setPosition(200.f, (120.f * i + 1) + 200.f);
+		upgrades[i].Reset();
+		upgrades[i].SetCharSize(textSize);
+		upgrades[i].SetOrigin(Origins::ML);
+		upgrades[i].SetPosition({ 200.f, (120.f * i + 1) + 200.f });
 	}
 }
 
@@ -95,9 +103,9 @@ void UiUpgrade::Update(float dt)
 
 	for (int i = 0; i < upgrades.size();++i)
 	{
-		if (upgrades[i].getGlobalBounds().contains(mousePos))
+		if (upgrades[i].GetGlobalBounds().contains(mousePos))
 		{
-			upgrades[i].setFillColor(sf::Color::Red);
+			upgrades[i].SetFillColor(sf::Color::Red);
 			if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 			{
 				sceneGame->OnUpgrade((Upgrade)i);
@@ -106,7 +114,7 @@ void UiUpgrade::Update(float dt)
 		}
 		else
 		{
-			upgrades[i].setFillColor(sf::Color::White);
+			upgrades[i].SetFillColor(sf::Color::White);
 		}
 	}
 }
@@ -120,6 +128,14 @@ void UiUpgrade::Draw(sf::RenderWindow& window)
 	window.draw(background);
 	for (auto& text : upgrades)
 	{
-		window.draw(text);
+		text.Draw(window);
+	}
+}
+
+void UiUpgrade::OnLocalize(Languages lang)
+{
+	for (auto& text : upgrades)
+	{
+		text.OnLocalize(lang);
 	}
 }

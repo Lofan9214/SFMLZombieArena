@@ -199,6 +199,22 @@ void SceneGame::Update(float dt)
 		break;
 	}
 
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
+	{
+		Variables::currentLang = Languages::Korean;
+		OnLocalize(Variables::currentLang);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
+	{
+		Variables::currentLang = Languages::English;
+		OnLocalize(Variables::currentLang);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
+	{
+		Variables::currentLang = Languages::Japanese;
+		OnLocalize(Variables::currentLang);
+	}
+
 	UpdateHud();
 }
 

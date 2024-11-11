@@ -2,6 +2,9 @@
 
 class StringTable : public DataTable
 {
+public:
+	const static std::wstring Undefined;
+
 protected:
 	// <T1, T2>
 	// T1 : 스트링 아이디

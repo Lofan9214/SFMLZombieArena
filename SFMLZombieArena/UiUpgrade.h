@@ -12,11 +12,12 @@ enum class Upgrade
 };
 
 class SceneGame;
+class TextGo;
 
 class UiUpgrade : public GameObject
 {
 protected:
-	std::vector<sf::Text> upgrades;
+	std::vector<TextGo> upgrades;
 	sf::Sprite background;
 
 	SceneGame* sceneGame;
@@ -40,4 +41,5 @@ public:
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+	void OnLocalize(Languages lang) override;
 };

@@ -19,6 +19,13 @@ void TextGo::SetOrigin(const sf::Vector2f& newOrigin)
 	text.setOrigin(origin);
 }
 
+void TextGo::SetFont(const std::string& fontid)
+{
+	fontId = fontid;
+	sf::Font& font = FONT_MGR.Get(fontId);
+	text.setFont(font);
+}
+
 void TextGo::Init()
 {
 }
@@ -30,7 +37,7 @@ void TextGo::Release()
 void TextGo::Reset()
 {
 	text.setFont(FONT_MGR.Get(fontId));
-	SetOrigin(originPreset);
+	SetString(stringId);
 }
 
 void TextGo::SetPosition(const sf::Vector2f& pos)
@@ -45,6 +52,16 @@ void TextGo::SetScale(const sf::Vector2f& s)
 {
 	scale = s;
 	text.setScale(scale);
+}
+
+sf::FloatRect TextGo::GetLocalBounds() const
+{
+	return text.getLocalBounds();
+}
+
+sf::FloatRect TextGo::GetGlobalBounds() const
+{
+	return text.getGlobalBounds();
 }
 
 void TextGo::LateUpdate(float dt)

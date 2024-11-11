@@ -16,6 +16,8 @@ public:
 	void SetOrigin(Origins preset);
 	void SetOrigin(const sf::Vector2f& newOrigin);
 
+	void SetFont(const std::string& fontid);
+
 	void Init() override;
 	void Release() override;
 
@@ -28,6 +30,8 @@ public:
 	void SetRotation(float angle) override;
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetScale(const sf::Vector2f& scale) override;
+	sf::FloatRect GetLocalBounds() const override;
+	sf::FloatRect GetGlobalBounds() const override;
 
 	void SetString(const std::string& str);
 	void SetFillColor(sf::Color color);
