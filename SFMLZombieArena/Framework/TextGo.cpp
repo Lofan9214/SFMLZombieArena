@@ -47,6 +47,10 @@ void TextGo::SetScale(const sf::Vector2f& s)
 	text.setScale(scale);
 }
 
+void TextGo::LateUpdate(float dt)
+{
+}
+
 void TextGo::Update(float dt)
 {
 }
@@ -66,9 +70,13 @@ void TextGo::SetRotation(float angle)
 	text.setRotation(angle);
 }
 
-void TextGo::SetTextString(const std::string& str)
+void TextGo::SetString(const std::string& str)
 {
-	text.setString(str);
+	stringId = str;
+	text.setString(STRING_TABLE->Get(stringId));
+
+	//text.setString(id)
+
 	if (originPreset < Origins::Custom)
 	{
 		SetOrigin(originPreset);
@@ -78,4 +86,18 @@ void TextGo::SetTextString(const std::string& str)
 void TextGo::SetFillColor(sf::Color color)
 {
 	text.setFillColor(color);
+}
+
+void TextGo::SetCharSize(int size)
+{
+	text.setCharacterSize(size);
+}
+
+void TextGo::OnLocalize(Languages lang)
+{
+	text.setString(STRING_TABLE->Get(stringId,lang));
+	if (originPreset < Origins::Custom)
+	{
+		SetOrigin(originPreset);
+	}
 }

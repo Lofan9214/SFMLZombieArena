@@ -32,6 +32,7 @@ void Scene::Enter()
 	for (auto obj : gameObjects)
 	{
 		obj->Reset();
+		obj->OnLocalize(Variables::currentLang);
 	}
 }
 

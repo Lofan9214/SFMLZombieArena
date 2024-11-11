@@ -6,6 +6,8 @@ protected:
 	std::string fontId;
 	sf::Text text;
 
+	std::string stringId;
+
 public:
 
 	TextGo(const std::string& fontId = "", const std::string& name = "");
@@ -19,6 +21,7 @@ public:
 
 	void Reset() override;
 
+	void LateUpdate(float dt) override;
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
@@ -26,7 +29,10 @@ public:
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetScale(const sf::Vector2f& scale) override;
 
-	void SetTextString(const std::string& str);
+	void SetString(const std::string& str);
 	void SetFillColor(sf::Color color);
+	void SetCharSize(int size);
+
+	void OnLocalize(Languages lang) override;
 };
 
