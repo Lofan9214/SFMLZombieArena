@@ -6,11 +6,15 @@ protected:
 	sf::Sprite body;
 	Animator animator;
 
+	sf::Vector2f gravity = { 0.f,500.f };
+	sf::Vector2f velocity = { 0.f,0.f };
+	bool isGrounded = true;
+	float speed = 500.f;
+
 	AnimationClip idle;
 	AnimationClip run;
 	AnimationClip jump;
 
-	float speed;
 
 public:
 	AniPlayer(const std::string& name = "");

@@ -97,24 +97,90 @@ void AniPlayer::Update(float dt)
 {
 	animator.Update(dt);
 
+	float h = 0.f;
 
-	if (InputMgr::GetKeyPressing(sf::Keyboard::Space)&&animator.IsPlaying())
+	if (InputMgr::GetKeyDown(sf::Keyboard::Space) && isGrounded)
 	{
+		isGrounded = false;
+		velocity.y = -500.f;
 		animator.Play(&jump);
 	}
+	if (!isGrounded)
+	{
+		velocity += gravity * dt;
+	}
 	else
- 	{
-		if (InputMgr::GetAxis(Axis::Horizontal) != 0.f)
+	{
+		h = InputMgr::GetAxis(Axis::Horizontal);
+		velocity.x = h * speed;
+	}
+	if (h != 0.f)
+	{
+		body.setScale({ h > 0 ? 1.f : -1.f,1.f });
+	}
+
+	position += velocity * dt;
+
+	if (position.y > 0.f)
+	{
+		isGrounded = true;
+		velocity.y = 0.f;
+		position.y = 0.f;
+	}
+
+	SetPosition(position);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Numpad1))
+	{
+		animator.SetSpeed(-0.5f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Numpad4))
+	{
+		animator.SetSpeed(-1.f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Numpad7))
+	{
+		animator.SetSpeed(-2.f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Numpad3))
+	{
+		animator.SetSpeed(0.5f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Numpad6))
+	{
+		animator.SetSpeed(1.f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Numpad9))
+	{
+		animator.SetSpeed(2.f);
+	}
+
+
+	if (animator.GetCurrentClipId() == "Idle")
+	{
+		if (h != 0.f)
 		{
-			body.setScale({ InputMgr::GetAxis(Axis::Horizontal) < 0 ? -1.f : 1.f,1.f });
 			animator.Play(&run);
 		}
-		else
+	}
+	else if (animator.GetCurrentClipId() == "Run")
+	{
+		if (h == 0.f)
 		{
 			animator.Play(&idle);
 		}
 	}
-
+	else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
+	{
+		if (h == 0.f)
+		{
+			animator.Play(&idle);
+		}
+		else
+		{
+			animator.Play(&run);
+		}
+	}
 }
 
 void AniPlayer::Draw(sf::RenderWindow& window)

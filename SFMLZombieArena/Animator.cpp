@@ -7,41 +7,50 @@ void Animator::Update(float dt)
 	{
 		return;
 	}
-	accumTime += dt;
-	if (accumTime < frameDuration)
+	accumTime += dt * frameScale;
+	if (accumTime < frameDuration && accumTime > frameDuration * -1.f)
 	{
 		return;
 	}
-
-	++currentFrame;
-	accumTime = 0.f;
-
-	if (currentFrame == totalFrame)
+	if (accumTime > 0)
 	{
-		switch (currentClip->loopType)
+		++currentFrame;
+		if (currentFrame == totalFrame)
 		{
-		case AnimationLoopTypes::Single:
-			currentFrame = totalFrame - 1;
-			isPlaying = false;
-			break;
-		case AnimationLoopTypes::Loop:
-			currentFrame = 0;
-			break;
-		default:
-			break;
+			switch (currentClip->loopType)
+			{
+			case AnimationLoopTypes::Single:
+				currentFrame = totalFrame - 1;
+				break;
+			case AnimationLoopTypes::Loop:
+				currentFrame = 0;
+				break;
+			}
 		}
 	}
+	else
+	{
+		--currentFrame;
+		if (currentFrame == -1)
+		{
+			switch (currentClip->loopType)
+			{
+			case AnimationLoopTypes::Single:
+				currentFrame = 0;
+				break;
+			case AnimationLoopTypes::Loop:
+				currentFrame = totalFrame - 1;
+				break;
+			}
+		}
+	}
+	accumTime = 0.f;
 
 	SetFrame(currentClip->frames[currentFrame]);
 }
 
-void Animator::Play(AnimationClip* clip,bool queueclear)
+void Animator::Play(AnimationClip* clip)
 {
-	if (currentClip == clip)
-	{
-		return;
-	}
-
 	isPlaying = true;
 
 	currentClip = clip;
