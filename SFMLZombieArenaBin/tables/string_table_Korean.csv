@@ -2,8 +2,8 @@ ID,Korean
 Hi,안녕~
 Score,점수: 
 HighScore,최고 점수: 
-StartMessage,"엔터를 눌러\n시작"
-GameOverMessage,"엔터를 눌러\n재시작"
+StartMessage,"엔터를 눌러 시작"
+GameOverMessage,"엔터를 눌러 재시작"
 Wave,웨이브: 
 Zombies,좀비 수: 
 Upgrade1,1- 발사 속도 증가

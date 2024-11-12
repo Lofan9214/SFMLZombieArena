@@ -51,4 +51,6 @@ public:
 	void SetZombieCount(int count);
 
 	BombIcon* GetBombIcon() { return &bombicon; }
+	void OnLocalize(Languages lang) override;
+
 };

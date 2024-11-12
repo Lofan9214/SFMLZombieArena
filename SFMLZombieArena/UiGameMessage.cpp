@@ -80,6 +80,8 @@ void UiGameMessage::LateUpdate(float dt)
 
 void UiGameMessage::Update(float dt)
 {
+	textGameOver->SetString("GameOverMessage");
+	textGameStart->SetString("StartMessage");
 }
 
 void UiGameMessage::FixedUpdate(float dt)
@@ -96,6 +98,12 @@ void UiGameMessage::Draw(sf::RenderWindow& window)
 	{
 		textGameStart->Draw(window);
 	}
+}
+
+void UiGameMessage::OnLocalize(Languages lang)
+{
+	textGameOver->OnLocalize(lang);
+	textGameStart->OnLocalize(lang);
 }
 
 void UiGameMessage::SetStat(bool isGameOver)

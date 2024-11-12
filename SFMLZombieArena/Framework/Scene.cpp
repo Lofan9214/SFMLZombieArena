@@ -130,6 +130,7 @@ void Scene::OnPostDraw()
 
 void Scene::OnLocalize(Languages lang)
 {
+	STRING_TABLE->OnLocalize();
 	for (auto obj : gameObjects)
 	{
 		if (!obj->IsActive())

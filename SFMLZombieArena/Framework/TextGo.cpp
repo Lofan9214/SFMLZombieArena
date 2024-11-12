@@ -139,7 +139,7 @@ void TextGo::SetCharSize(int size)
 
 void TextGo::OnLocalize(Languages lang)
 {
-	text.setString(STRING_TABLE->Get(stringId, lang));
+	text.setString(STRING_TABLE->Get(stringId));
 	if (originPreset < Origins::Custom)
 	{
 		SetOrigin(originPreset);

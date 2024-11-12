@@ -2,8 +2,8 @@ ID,Japanese
 Hi,こんにちは
 Score,スコア: 
 HighScore,ベストスコア: 
-StartMessage,"Enterを押して\n開始します"
-GameOverMessage,"Enterを押して\n再起動してください"
+StartMessage,"Enterを押して 開始します"
+GameOverMessage,"Enterを押して 再起動してください"
 Wave,波: 
 Zombies,ゾンビ: 
 Upgrade1,1- 発射速度の増加

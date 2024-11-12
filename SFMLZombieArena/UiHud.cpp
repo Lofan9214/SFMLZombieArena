@@ -165,3 +165,12 @@ void UiHud::SetZombieCount(int count)
 {
 	textZombieCount.SetString("Zombies", std::to_string(count));
 }
+
+void UiHud::OnLocalize(Languages lang)
+{
+	textAmmo.OnLocalize(lang);
+	textWave.OnLocalize(lang);
+	textHiScore.OnLocalize(lang);
+	textScore.OnLocalize(lang);
+	textZombieCount.OnLocalize(lang);
+}
