@@ -2,10 +2,14 @@
 #include "Scene.h"
 
 class TextGo;
+class AniPlayer;
+
 
 class SceneDev2 : public Scene
 {
 protected:
+
+	AniPlayer* aniPlayer;
 
 	TextGo* text;
 	TextGo* text2;

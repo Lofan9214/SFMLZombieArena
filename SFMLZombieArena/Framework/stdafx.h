@@ -25,6 +25,7 @@
 #include "DataTableMgr.h"
 #include "Framework.h"
 #include "InputMgr.h"
+#include "Animator.h"
 #include "ResourceMgr.h"
 #include "GameObject.h"
 #include "SceneMgr.h"
