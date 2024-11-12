@@ -11,11 +11,6 @@ protected:
 	bool isGrounded = true;
 	float speed = 500.f;
 
-	AnimationClip idle;
-	AnimationClip run;
-	AnimationClip jump;
-
-
 public:
 	AniPlayer(const std::string& name = "");
 	~AniPlayer() = default;

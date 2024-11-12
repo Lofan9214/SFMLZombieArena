@@ -33,6 +33,7 @@ public:
 
 	bool IsPlaying() const { return isPlaying; }
 
+	void Play(const std::string& clipId);
 	void Play(AnimationClip* clip);
 	void Stop();
 	//void Pause();

@@ -33,6 +33,11 @@ void Animator::Update(float dt)
 	SetFrame(currentClip->frames[currentFrame]);
 }
 
+void Animator::Play(const std::string& clipId)
+{
+	Play(&ANIMATIONCLIP_MGR.Get(clipId));
+}
+
 void Animator::Play(AnimationClip* clip)
 {
 	isPlaying = true;

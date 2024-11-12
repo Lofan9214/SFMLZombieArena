@@ -43,11 +43,6 @@ void AniPlayer::SetOrigin(const sf::Vector2f& newOrigin)
 void AniPlayer::Init()
 {
 	animator.SetTarget(&body);
-	std::string sheetId = "graphics/sprite_sheet.png";
-
-	idle.loadFromFile("animations/idle.csv");
-	run.loadFromFile("animations/run.csv");
-	jump.loadFromFile("animations/jump.csv");
 }
 
 void AniPlayer::Release()
@@ -56,7 +51,7 @@ void AniPlayer::Release()
 
 void AniPlayer::Reset()
 {
-	animator.Play(&idle);
+	animator.Play("animations/idle.csv");
 	SetOrigin(Origins::BC);
 }
 
@@ -70,7 +65,7 @@ void AniPlayer::Update(float dt)
 	{
 		isGrounded = false;
 		velocity.y = -500.f;
-		animator.Play(&jump);
+		animator.Play("animations/jump.csv");
 	}
 	if (!isGrounded)
 	{
@@ -127,25 +122,25 @@ void AniPlayer::Update(float dt)
 	{
 		if (h != 0.f)
 		{
-			animator.Play(&run);
+			animator.Play("animations/run.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Run")
 	{
 		if (h == 0.f)
 		{
-			animator.Play(&idle);
+			animator.Play("animations/idle.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
 	{
 		if (h == 0.f)
 		{
-			animator.Play(&idle);
+			animator.Play("animations/idle.csv");
 		}
 		else
 		{
-			animator.Play(&run);
+			animator.Play("animations/run.csv");
 		}
 	}
 }
