@@ -11,16 +11,21 @@ protected:
 	bool isPlaying = false;
 	int currentFrame = 0;
 	int totalFrame = 0;
+	int checkFrame = 0;
 	float frameDuration = 0.f;
 	float accumTime = 0.f;
 
-	float frameScale = 1.f;
+	float speed = 1.f;
 
 public:
 	Animator() = default;
 	virtual ~Animator() = default;
 
-	void SetSpeed(float speed) { frameScale = speed; }
+	void SetSpeed(float speed)
+	{
+		this->speed = speed;
+		checkFrame = this->speed > 0.f ? totalFrame : -1;
+	}
 
 	void SetTarget(sf::Sprite* target) { sprite = target; }
 
@@ -40,7 +45,7 @@ public:
 		{
 			return "";
 		}
-		return currentClip->id; 
+		return currentClip->id;
 	}
 };
 

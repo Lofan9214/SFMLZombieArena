@@ -45,42 +45,9 @@ void AniPlayer::Init()
 	animator.SetTarget(&body);
 	std::string sheetId = "graphics/sprite_sheet.png";
 
-	sf::IntRect coord(0, 0, 120, 120);
-
-	//Idle
-	idle.id = "Idle";
-	idle.fps = 10;
-	idle.loopType = AnimationLoopTypes::Loop;
-
-	for (int i = 0;i < 8;++i)
-	{
-		coord.left = i * 120;
-		idle.frames.push_back(AnimationFrame(sheetId, coord));
-	}
-
-	run.id = "Run";
-	run.fps = 10;
-	run.loopType = AnimationLoopTypes::Loop;
-
-	for (int i = 0;i < 9;++i)
-	{
-		coord.left = (i % 8) * 120;
-		coord.top = (1 + i / 8) * 120;
-
-		run.frames.push_back(AnimationFrame(sheetId, coord));
-	}
-
-	jump.id = "Jump";
-	jump.fps = 10;
-	jump.loopType = AnimationLoopTypes::Single;
-
-	for (int i = 0;i < 7;++i)
-	{
-		coord.left = (i % 8) * 120;
-		coord.top = (3 + i / 8) * 120;
-
-		jump.frames.push_back(AnimationFrame(sheetId, coord));
-	}
+	idle.loadFromFile("animations/idle.csv");
+	run.loadFromFile("animations/run.csv");
+	jump.loadFromFile("animations/jump.csv");
 }
 
 void AniPlayer::Release()

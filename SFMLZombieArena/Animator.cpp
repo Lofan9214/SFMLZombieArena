@@ -7,43 +7,27 @@ void Animator::Update(float dt)
 	{
 		return;
 	}
-	accumTime += dt * frameScale;
-	if (accumTime < frameDuration && accumTime > frameDuration * -1.f)
+	accumTime += dt * std::fabs(speed);
+	if (accumTime < frameDuration)
 	{
 		return;
 	}
-	if (accumTime > 0)
+
+	currentFrame += speed > 0.f ? 1 : -1;
+
+	if (currentFrame == checkFrame)
 	{
-		++currentFrame;
-		if (currentFrame == totalFrame)
+		switch (currentClip->loopType)
 		{
-			switch (currentClip->loopType)
-			{
-			case AnimationLoopTypes::Single:
-				currentFrame = totalFrame - 1;
-				break;
-			case AnimationLoopTypes::Loop:
-				currentFrame = 0;
-				break;
-			}
+		case AnimationLoopTypes::Single:
+			currentFrame = speed > 0.f ? totalFrame - 1 : 0;
+			break;
+		case AnimationLoopTypes::Loop:
+			currentFrame = speed > 0.f ? 0 : totalFrame - 1;
+			break;
 		}
 	}
-	else
-	{
-		--currentFrame;
-		if (currentFrame == -1)
-		{
-			switch (currentClip->loopType)
-			{
-			case AnimationLoopTypes::Single:
-				currentFrame = 0;
-				break;
-			case AnimationLoopTypes::Loop:
-				currentFrame = totalFrame - 1;
-				break;
-			}
-		}
-	}
+
 	accumTime = 0.f;
 
 	SetFrame(currentClip->frames[currentFrame]);
@@ -54,8 +38,9 @@ void Animator::Play(AnimationClip* clip)
 	isPlaying = true;
 
 	currentClip = clip;
-	currentFrame = 0;
 	totalFrame = currentClip->frames.size();
+	checkFrame = this->speed > 0.f ? totalFrame : -1;
+	currentFrame = speed < 0 ? totalFrame - 1 : 0;
 
 	frameDuration = 1.f / currentClip->fps;
 

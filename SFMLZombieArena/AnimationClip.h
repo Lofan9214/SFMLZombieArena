@@ -23,4 +23,6 @@ struct AnimationClip
 	int fps = 30;
 
 	std::vector<AnimationFrame> frames;
+
+	bool loadFromFile(const std::string& filePath);
 };
