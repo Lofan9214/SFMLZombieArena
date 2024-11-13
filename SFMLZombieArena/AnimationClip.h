@@ -11,9 +11,10 @@ struct AnimationFrame
 {
 	std::string texId;
 	sf::IntRect texCoord;
+	//bool flipX = false;
 
 	AnimationFrame() {}
-	AnimationFrame(const std::string& texId, const sf::IntRect& texCoord) : texId(texId), texCoord(texCoord) {}
+	AnimationFrame(const std::string& texId, const sf::IntRect& texCoord/*, bool flipX*/) : texId(texId), texCoord(texCoord)/*, flipX(flipX)*/ {}
 };
 
 struct AnimationClip

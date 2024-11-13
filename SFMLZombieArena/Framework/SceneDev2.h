@@ -1,15 +1,18 @@
 #pragma once
 #include "Scene.h"
+#include "json.hpp"
+using json = nlohmann::json;
 
 class TextGo;
 class AniPlayer;
-
+class AniPlayer2;
 
 class SceneDev2 : public Scene
 {
 protected:
 
 	AniPlayer* aniPlayer;
+	AniPlayer2* aniPlayer2;
 
 	TextGo* text;
 	TextGo* text2;

@@ -128,7 +128,6 @@ void AniPlayer::Update(float dt)
 		animator.SetSpeed(2.f);
 	}
 
-
 	if (animator.GetCurrentClipId() == "Idle")
 	{
 		if (h != 0.f)

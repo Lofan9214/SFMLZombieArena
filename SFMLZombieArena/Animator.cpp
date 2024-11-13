@@ -38,6 +38,14 @@ void Animator::Update(float dt)
 
 	if (currentFrame == checkFrame)
 	{
+		if (!playQueue.empty())
+		{
+			std::string clipid = playQueue.front();
+			Play(clipid, false);
+			playQueue.pop();
+			return;
+		}
+
 		switch (currentClip->loopType)
 		{
 		case AnimationLoopTypes::Single:
@@ -65,13 +73,21 @@ void Animator::Update(float dt)
 
 }
 
-void Animator::Play(const std::string& clipId)
+void Animator::Play(const std::string& clipId, bool clearqueue)
 {
-	Play(&ANIMATIONCLIP_MGR.Get(clipId));
+	Play(&ANIMATIONCLIP_MGR.Get(clipId), clearqueue);
 }
 
-void Animator::Play(AnimationClip* clip)
+void Animator::Play(AnimationClip* clip, bool clearqueue)
 {
+	if (clearqueue)
+	{
+		while (!playQueue.empty())
+		{
+			playQueue.pop();
+		}
+	}
+
 	isPlaying = true;
 
 	currentClip = clip;
@@ -84,6 +100,11 @@ void Animator::Play(AnimationClip* clip)
 	accumTime = 0.f;
 
 	SetFrame(currentClip->frames[currentFrame]);
+}
+
+void Animator::PlayQueue(const std::string& clipId)
+{
+	playQueue.push(clipId);
 }
 
 void Animator::Stop()

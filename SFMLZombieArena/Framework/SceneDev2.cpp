@@ -2,6 +2,7 @@
 #include "SceneDev2.h"
 #include "TextGo.h"
 #include "AniPlayer.h"
+#include "AniPlayer2.h"
 
 SceneDev2::SceneDev2() : Scene(SceneIds::Dev2)
 {
@@ -10,7 +11,14 @@ SceneDev2::SceneDev2() : Scene(SceneIds::Dev2)
 void SceneDev2::Init()
 {
 	aniPlayer = AddGo(new AniPlayer("Ani Test"));
+	aniPlayer2 = AddGo(new AniPlayer2("Ani Test"));
 	Scene::Init();
+
+	std::ifstream f("json/example.json");
+	json data = json::parse(f);
+	std::cout << data["pi"] << std::endl;
+	std::cout << data["happy"] << std::endl;
+	
 }
 
 void SceneDev2::Enter()

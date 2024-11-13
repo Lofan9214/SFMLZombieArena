@@ -25,7 +25,8 @@ struct AnimationEventHash
 class Animator
 {
 protected:
-	std::unordered_map<AnimationEvent, std::vector<std::function<void()>>, AnimationEventHash> events;
+	std::unordered_map<AnimationEvent, std::list<std::function<void()>>, AnimationEventHash> events;
+	std::queue<std::string> playQueue;
 
 	AnimationClip* currentClip;
 	sf::Sprite* sprite;
@@ -59,8 +60,9 @@ public:
 
 	bool IsPlaying() const { return isPlaying; }
 
-	void Play(const std::string& clipId);
-	void Play(AnimationClip* clip);
+	void Play(const std::string& clipId, bool clearqueue = true);
+	void Play(AnimationClip* clip, bool clearqueue = true);
+	void PlayQueue(const std::string& clipId);
 	void Stop();
 	//void Pause();
 

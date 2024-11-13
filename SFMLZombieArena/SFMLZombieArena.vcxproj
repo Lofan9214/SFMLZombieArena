@@ -149,6 +149,7 @@
     <ClCompile Include="AnimationClip.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AniPlayer.cpp" />
+    <ClCompile Include="AniPlayer2.cpp" />
     <ClCompile Include="Blood.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombIcon.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="AnimationClip.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="AniPlayer.h" />
+    <ClInclude Include="AniPlayer2.h" />
     <ClInclude Include="Blood.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombIcon.h" />
@@ -203,6 +205,7 @@
     <ClInclude Include="Framework\GameObject.h" />
     <ClInclude Include="Framework\HitBox.h" />
     <ClInclude Include="Framework\InputMgr.h" />
+    <ClInclude Include="Framework\json.hpp" />
     <ClInclude Include="Framework\ObjectPool.h" />
     <ClInclude Include="Framework\rapidcsv.h" />
     <ClInclude Include="Framework\ResourceMgr.h" />
