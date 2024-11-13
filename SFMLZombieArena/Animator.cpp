@@ -49,10 +49,12 @@ void Animator::Update(float dt)
 		switch (currentClip->loopType)
 		{
 		case AnimationLoopTypes::Single:
-			currentFrame = speed > 0.f ? totalFrame - 1 : 0;
+			currentFrame = std::abs(checkFrame) - 1;
+			//currentFrame = speed > 0.f ? totalFrame - 1 : 0;
 			break;
 		case AnimationLoopTypes::Loop:
-			currentFrame = speed > 0.f ? 0 : totalFrame - 1;
+			currentFrame = totalFrame - std::abs(checkFrame);
+			//currentFrame = speed > 0.f ? 0 : totalFrame - 1;
 			break;
 		}
 	}

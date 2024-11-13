@@ -49,4 +49,5 @@ void Framework::Release()
 {
     SCENE_MGR.Release();
     DATATABLE_MGR.Release();
+    SOUND_MGR.Release();
 }

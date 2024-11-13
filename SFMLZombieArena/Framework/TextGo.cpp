@@ -52,7 +52,6 @@ void TextGo::SetPosition(const sf::Vector2f& pos)
 }
 
 
-
 void TextGo::SetScale(const sf::Vector2f& s)
 {
 	scale = s;
