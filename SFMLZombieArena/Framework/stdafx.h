@@ -10,6 +10,7 @@
 #include <iostream>
 #include <limits>
 #include <codecvt>
+#include <functional>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>

@@ -1,6 +1,27 @@
 #include "stdafx.h"
 #include "Animator.h"
 
+void Animator::AddEvent(const std::string& id, int frame, const std::function<void()>& action)
+{
+	auto it = events.find({ id,frame });
+	if (it != events.end() && action)
+	{
+		it->second.push_back(action);
+		return;
+	}
+	events.insert({ { id,frame }, {action} });
+}
+
+void Animator::ClearEvent(const std::string& id, int frame)
+{
+	auto it = events.find({ id,frame });
+	if (it != events.end())
+	{
+		it->second.clear();
+		return;
+	}
+}
+
 void Animator::Update(float dt)
 {
 	if (!isPlaying)
@@ -31,6 +52,17 @@ void Animator::Update(float dt)
 	accumTime = 0.f;
 
 	SetFrame(currentClip->frames[currentFrame]);
+
+	auto find = events.find({ currentClip->id,currentFrame });
+	if (find != events.end())
+	{
+		auto& evs = *find;
+		for (auto& ev : evs.second)
+		{
+			ev();
+		}
+	}
+
 }
 
 void Animator::Play(const std::string& clipId)
