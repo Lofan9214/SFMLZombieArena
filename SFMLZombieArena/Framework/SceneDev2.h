@@ -1,7 +1,5 @@
 #pragma once
 #include "Scene.h"
-#include "json.hpp"
-using json = nlohmann::json;
 
 class TextGo;
 class AniPlayer;

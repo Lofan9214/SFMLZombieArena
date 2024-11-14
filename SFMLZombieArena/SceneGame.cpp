@@ -143,19 +143,50 @@ void SceneGame::Update(float dt)
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
 	{
-		Variables::currentLang = Languages::Korean;
-		OnLocalize(Variables::currentLang);
+		SaveDataVC data;
+		for (auto zombie : zombies)
+		{
+			data.zombies.push_back(zombie->GetSaveData());
+		}
+		SaveLoadMgr::Instance().Save(data);
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
 	{
-		Variables::currentLang = Languages::English;
-		OnLocalize(Variables::currentLang);
+		for (auto zombie : zombies)
+		{
+			RemoveGo(zombie);
+			zombiePool.Return(zombie);
+		}
+		zombies.clear();
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
 	{
-		Variables::currentLang = Languages::Japanese;
-		OnLocalize(Variables::currentLang);
+		SaveDataVC data = SaveLoadMgr::Instance().Load();
+		for (const auto& datum : data.zombies)
+		{
+			Zombie* newzombie = zombiePool.Take();
+			newzombie->LoadSaveData(datum);
+			newzombie->SetMovableBounds(tilemap->GetMovableBounds());
+			zombies.push_back(newzombie);
+			AddGo(newzombie);
+		}
 	}
+
+	//if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
+	//{
+	//	Variables::currentLang = Languages::Korean;
+	//	OnLocalize(Variables::currentLang);
+	//}
+	//if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
+	//{
+	//	Variables::currentLang = Languages::English;
+	//	OnLocalize(Variables::currentLang);
+	//}
+	//if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
+	//{
+	//	Variables::currentLang = Languages::Japanese;
+	//	OnLocalize(Variables::currentLang);
+	//}
 
 	UpdateHud();
 }

@@ -178,6 +178,8 @@
     <ClCompile Include="ItemGenerator.cpp" />
     <ClCompile Include="ItemTable.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SaveData.cpp" />
+    <ClCompile Include="SaveLoadMgr.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="StringTable.cpp" />
@@ -224,6 +226,8 @@
     <ClInclude Include="ItemGenerator.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SaveData.h" />
+    <ClInclude Include="SaveLoadMgr.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="StringTable.h" />

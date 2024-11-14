@@ -135,6 +135,7 @@ void Zombie::FixedUpdate(float dt)
 
 void Zombie::SetType(Types type)
 {
+	this->type = type;
 	const auto& data = ZOMBIE_TABLE->Get(type);
 	textureId = data.textureId;
 	maxHp = data.maxHp;
@@ -151,4 +152,18 @@ void Zombie::OnDamage(int d)
 	{
 		sceneGame->OnZombieDie(this);
 	}
+}
+
+SaveZombie Zombie::GetSaveData() const
+{
+	return SaveZombie{ (int)type,position,rotation,scale,hp };
+}
+
+void Zombie::LoadSaveData(const SaveZombie& data)
+{
+	SetType((Types)data.type);
+	SetPosition(data.position);
+	SetRotation(data.rotation);
+	SetScale(data.scale);
+	hp = data.hp;
 }

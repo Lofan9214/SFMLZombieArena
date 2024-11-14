@@ -62,4 +62,7 @@ public:
 	void SetType(Types type);
 
 	void OnDamage(int damage);
+
+	SaveZombie GetSaveData() const;
+	void LoadSaveData(const SaveZombie& data);
 };
